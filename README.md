@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh)  
+[![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh)
+[![Coverage Status](https://coveralls.io/repos/github/andela/casablanca-cfh/badge.svg?branch=ch-integrate-coveralls-156096152)](https://coveralls.io/github/andela/casablanca-cfh?branch=ch-integrate-coveralls-156096152)  
 Cards for Humanity - [http://cfh.io](http://cfh.io)
 ===========
 Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.
