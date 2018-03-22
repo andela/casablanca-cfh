@@ -1,13 +1,14 @@
 [![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh)
-[![Coverage Status](https://coveralls.io/repos/github/andela/casablanca-cfh/badge.svg?branch=ch-integrate-coveralls-156096152)](https://coveralls.io/github/andela/casablanca-cfh?branch=ch-integrate-coveralls-156096152)  
+[![Coverage Status](https://coveralls.io/repos/github/andela/casablanca-cfh/badge.svg?branch=ch-integrate-coveralls-156096152)](https://coveralls.io/github/andela/casablanca-cfh?branch=ch-integrate-coveralls-156096152)
+[![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com)  
+
 Cards for Humanity - [http://cfh.io](http://cfh.io)
-===========
+
 Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.
 
 Our Team
 --------
 Cards for Humanity was created at [Hack Reactor](http://www.hackreactor.com) by:
-* [Matt Silverstein](http://www.mattsilverstein.com/)
 * [Will Ngo](https://mrngoitall.net)
 * [Tyler McGinnis](http://www.tylermcginnis.com)
 * [David Gonzalez](http://www.truthyfalsy.com)
@@ -18,7 +19,7 @@ The game is simple - each player is given 10 answer cards which are used to fill
 
 Cards Against Humanity is open-source and licensed under Creative Commons. The idea for Cards for Humanity was to create a web version of the game we love so much, while still doing something good for humanity. To achieve this we integrated the option to donate to the Make a Wish Foundation.
 
-The app is completely functional across all devices - from iPhone to full-sized desktop. We used Socket.io to create rooms which hold up 6 players at a time, and also included the functionality to create private rooms once logged in. Passport handles authentication with Local, Twitter, Facebook, Google and Github strategies implemented. 
+The app is completely functional across all devices - from iPhone to full-sized desktop. We used Socket.io to create rooms which hold up 6 players at a time, and also included the functionality to create private rooms once logged in. Passport handles authentication with Local, Twitter, Facebook, Google and Github strategies implemented.
 
 ![alt-text](https://dl.dropboxusercontent.com/u/7390609/CFHforGit.png "Cards for Humanity views")
 
@@ -26,9 +27,14 @@ The app is completely functional across all devices - from iPhone to full-sized 
 
 Our Tech Stack
 --------------
-Cards for Humanity uses AngularJS and Sass on the front-end, with Node.js/Express.js, MongoDB and Socket.io on the back-end. It's currently deployed to Amazon EC2. 
+Cards for Humanity uses AngularJS and Sass on the front-end, with Node.js/Express.js, MongoDB and Socket.io on the back-end. It's currently deployed to Amazon EC2.
 
 ![alt-text](https://dl.dropboxusercontent.com/u/7390609/tech.png "Tech Stack Overview")
+
+Tests
+-----
+* First use `npm install -g karma-cli` to install `karma` globally
+* Use `npm run karma:test` to then run your tests.
 
 
 ## License
