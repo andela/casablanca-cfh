@@ -1,12 +1,11 @@
-[![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh)  
-Cards for Humanity - [http://cfh.io](http://cfh.io)
-===========
+Cards for Humanity - [http://cfh.io](http://cfh.io)  [![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com) [![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh) 
+
+
 Cards for Humanity is a fast-paced online version of the popular card game, Cards Against Humanity, that gives you the opportunity to donate to children in need - all while remaining as despicable and awkward as you naturally are.
 
 Our Team
 --------
 Cards for Humanity was created at [Hack Reactor](http://www.hackreactor.com) by:
-* [Matt Silverstein](http://www.mattsilverstein.com/)
 * [Will Ngo](https://mrngoitall.net)
 * [Tyler McGinnis](http://www.tylermcginnis.com)
 * [David Gonzalez](http://www.truthyfalsy.com)
