@@ -1,10 +1,18 @@
-{ 
+{
   "root": true,
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "env": {
     "node": true,
     "es6": true,
     "mocha": true
+  },
+  "globals": {
+    "gulp": true
   },
   "rules": {
     "one-var": 0,
@@ -14,7 +22,6 @@
     "no-param-reassign": 0,
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
-    "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
     "valid-jsdoc": ["error", {
       "requireReturn": true,
@@ -28,6 +35,8 @@
             "MethodDefinition": true,
             "ClassDeclaration": true
         }
-    }]
+    }],
+    "import/extensions": "off",
+    "import/no-unresolved": "off"
   }
 }

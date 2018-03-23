@@ -1,16 +1,11 @@
-const gulp = require('gulp'),
-  mocha = require('gulp-mocha'),
-  nodemon = require('gulp-nodemon'),
-  { reload } = require('browser-sync').create(),
-  bower = require('gulp-bower'),
-  sass = require('gulp-sass'),
-  eslint = require('gulp-eslint'),
-  sourcemaps = require('gulp-sourcemaps');
-
-// Bower task
-gulp.task('bower', () => {
-  bower().pipe(gulp.dest('./bower_components'));
-});
+import gulp from 'gulp';
+import mocha from 'gulp-mocha';
+import nodemon from 'gulp-nodemon';
+import browserSync from 'browser-sync';
+import bower from 'gulp-bower';
+import sass from 'gulp-sass';
+import eslint from 'gulp-eslint';
+import sourcemaps from 'gulp-sourcemaps';
 
 // Watch  for file changes
 gulp.task('watch', () => {
@@ -19,9 +14,9 @@ gulp.task('watch', () => {
     ['public/css/common.scss, public/css/views/articles.scss'],
     ['sass']
   );
-  gulp.watch('public/views/**').on('change', reload);
-  gulp.watch(['public/js/**', 'app/**/*.js'], ['lint']).on('change', reload);
-  gulp.watch('app/views/**').on('change', reload);
+  gulp.watch('public/views/**', browserSync.reload());
+  gulp.watch(['public/js/**', 'app/**/*.js'], ['lint'], browserSync.reload());
+  gulp.watch('app/views/**', browserSync.reload());
   gulp.watch(['test/**'], ['mochaTest']);
 });
 
@@ -52,6 +47,8 @@ gulp.task('develop', () => {
     args: []
   });
 });
+
+gulp.task('install', ['bower']);
 
 // Bower task
 gulp.task('bower', () => {
@@ -116,5 +113,7 @@ gulp.task('mochaTest', () => {
 
 gulp.task('test', ['mochaTest']);
 
+gulp.task('build', ['saas', 'moveBowerComponents']);
+
 // Default task
-gulp.task('default', ['develop', 'watch', 'bower', 'moveBowerComponents', 'lint', 'sass', 'test']);
+gulp.task('default', ['develop', 'watch', 'bower', 'moveBowerComponents', 'lint', 'sass', 'install']);
