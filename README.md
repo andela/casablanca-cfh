@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=ch-integrate-travis-CI-156096148)](https://travis-ci.org/andela/casablanca-cfh)
-[![Coverage Status](https://coveralls.io/repos/github/andela/casablanca-cfh/badge.svg?branch=ch-integrate-coveralls-156096152)](https://coveralls.io/github/andela/casablanca-cfh?branch=ch-integrate-coveralls-156096152)
+[![Build Status](https://travis-ci.org/andela/casablanca-cfh.svg?branch=develop)](https://travis-ci.org/andela/casablanca-cfh)
+[![Coverage Status](https://coveralls.io/repos/github/andela/casablanca-cfh/badge.svg?branch=develop)](https://coveralls.io/github/andela/casablanca-cfh?branch=develop)
 [![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com)  
 
 Cards for Humanity - [http://cfh.io](http://cfh.io)
