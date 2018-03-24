@@ -49,7 +49,7 @@ exports.session = function(req, res) {
   res.redirect('/');
 };
 
-/** 
+/**
  * Check avatar - Confirm if the user who logged in via passport
  * already has an avatar. If they don't have one, redirect them
  * to our Choose an Avatar page.
@@ -106,6 +106,42 @@ exports.create = function(req, res) {
     return res.redirect('/#!/signup?error=incomplete');
   }
 };
+
+// JWT Signup
+exports.signupJWT = function(req, res) {
+  if (req.body.name && req.body.email && req.body.password && req.body.username) {
+    User.findOne({
+      email: req.body.email
+    })
+      .exec(function(err, user) {
+        if (user) {
+          res.status(409).send({
+            success: false,
+            message: 'User already exists'
+          });
+        } else {
+          User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            username: req.body.username
+          })
+            .then(function() {
+              res.status(201).send({
+                success: true,
+                message: 'User created successfully',
+              })
+            })
+            .catch(function() {
+              res.status(400).send({
+                success: true,
+                message: 'Signup failed'
+              });
+            })
+        }
+      });
+  }
+}
 
 /**
  * Assign avatar to user
