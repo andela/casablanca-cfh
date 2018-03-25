@@ -1,8 +1,10 @@
 var async = require('async');
+var expressJoi = require('express-joi-validator');
 
 module.exports = function(app, passport, auth) {
     //User Routes
     var users = require('../app/controllers/users');
+    var signupSchema = require('../app/validators/signupSchema.js');
     app.get('/signin', users.signin);
     app.get('/signup', users.signup);
     app.get('/chooseavatars', users.checkAvatar);
@@ -24,7 +26,7 @@ module.exports = function(app, passport, auth) {
     app.get('/users/:userId', users.show);
 
     // new signup routes
-    app.post('/api/auth/signup', users.signupJWT);
+    app.post('/api/auth/signup', expressJoi(signupSchema), users.signupJWT);
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {

@@ -4,6 +4,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User');
 var avatars = require('./avatars').all();
+var jwt = require('jsonwebtoken');
 
 /**
  * Auth callback
@@ -127,9 +128,15 @@ exports.signupJWT = function(req, res) {
             username: req.body.username
           })
             .then(function() {
+              var payload = {
+                name: req.body.name,
+                email: req.body.email
+              };
+              var token = jwt.sign(payload, process.env.secret, { expiresIn: '365d'});
               res.status(201).send({
                 success: true,
                 message: 'User created successfully',
+                token: token
               })
             })
             .catch(function() {
