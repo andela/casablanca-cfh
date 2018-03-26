@@ -16,7 +16,7 @@
     "start": "node ./build/server.js",
     "build": "node node_modules/gulp-cli/bin/gulp build",
     "test": "node node_modules/gulp-cli/bin/gulp test",
-    "start:dev": "node node_modules/gulp-cli/bin/gulp",
+    "start:dev": "npm run build && node node_modules/gulp-cli/bin/gulp",
     "postinstall": "node node_modules/gulp-cli/bin/gulp install",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "karma:test": "./node_modules/karma/bin/karma start karma.conf.js",

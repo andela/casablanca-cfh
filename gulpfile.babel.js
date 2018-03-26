@@ -117,6 +117,8 @@ gulp.task('develop', () => {
   });
 });
 
+gulp.task('test', ['mochaTest']);
+
 gulp.task('install', ['bower']);
 gulp.task('clone-files', ['clone-json-files',
   'clone-public-noneJs-files',
