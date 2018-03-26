@@ -18,12 +18,9 @@ const avatars = ['/img/chosen/E01.png',
   '/img/chosen/N04.png',
   '/img/chosen/N05.png'];
 
-exports.allJSON = function(req, res) {
-  // Only return the first 12
-  // The last 4 are reserved for guests
-  res.jsonp(avatars.slice(0,12));
-};
+// Only return the first 12
+// The last 4 are reserved for guests
+exports.allJSON = (req, res) => res.jsonp(avatars.slice(0, 12));
 
-exports.all = function() {
-  return avatars;
-};
+
+exports.all = () => avatars;

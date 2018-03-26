@@ -89,6 +89,8 @@ gulp.task('mochaTest', () => {
   gulp.src(['test/**/*.js'])
     .pipe(mocha({
       reporter: 'spec',
+      compilers: 'babel-core/register',
+      exit: true
     }))
     .pipe(exit());
 });
