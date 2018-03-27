@@ -8,12 +8,16 @@
     "type": "git",
     "url": "https://github.com/cardsforhumanity/cardsforhumanity.git"
   },
+  "engine": {
+    "node": "v8.9.4",
+    "npm": "5.6.0"
+  },
   "scripts": {
-    "start": "node ./build/server.js",
+    "start": "npm run build && node ./build/server.js",
     "build": "node node_modules/gulp-cli/bin/gulp build",
     "test": "NODE_ENV=test node node_modules/gulp-cli/bin/gulp test",
     "start:dev": "npm run build && node node_modules/gulp-cli/bin/gulp",
-    "bower:install": "node node_modules/gulp-cli/bin/gulp install",
+    "postinstall": "node node_modules/gulp-cli/bin/gulp install",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "karma:test": "./node_modules/karma/bin/karma start karma.conf.js",
     "lint": "./node_modules/.bin/eslint"
@@ -33,7 +37,7 @@
     "joi": "^13.1.2",
     "jsonwebtoken": "^8.2.0",
     "mean-logger": "~0.0.1",
-    "mongoose": "^4.13.7",
+    "mongoose": "^4.13.12",
     "passport": "~0.1.17",
     "passport-facebook": "~2.0.0",
     "passport-github": "~0.1.5",
@@ -53,6 +57,7 @@
     "browser-sync": "^2.23.6",
     "browserify": "^16.1.1",
     "chai": "^4.1.2",
+    "connect-mongo": "^2.0.1",
     "eslint": "^4.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
