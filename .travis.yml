@@ -2,6 +2,8 @@ language: node_js
 
 node_js: stable
 
+services: mongodb
+
 after_success: npm run coverage
 
 after_failure: npm run coverage
