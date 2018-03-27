@@ -8,20 +8,15 @@
     "type": "git",
     "url": "https://github.com/cardsforhumanity/cardsforhumanity.git"
   },
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
-  },
   "scripts": {
     "start": "node ./build/server.js",
     "build": "node node_modules/gulp-cli/bin/gulp build",
     "test": "NODE_ENV=test node node_modules/gulp-cli/bin/gulp test",
     "start:dev": "npm run build && node node_modules/gulp-cli/bin/gulp",
-    "postinstall": "node node_modules/gulp-cli/bin/gulp install",
+    "bower:install": "node node_modules/gulp-cli/bin/gulp install",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "karma:test": "./node_modules/karma/bin/karma start karma.conf.js",
-    "lint": "./node_modules/.bin/eslint",
-    "heroku-postbuild": "node node_modules/gulp-cli/bin/gulp install && npm run build"
+    "lint": "./node_modules/.bin/eslint"
   },
   "dependencies": {
     "async": "~0.2.9",
