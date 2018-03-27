@@ -1,4 +1,9 @@
-var _ = require('underscore');
+import dotenv from 'dotenv';
+import _ from 'underscore';
+
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+dotenv.config();
 
 // Load app configuration
 
