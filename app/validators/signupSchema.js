@@ -1,6 +1,6 @@
-var Joi = require('joi');
+import Joi from 'joi';
 
-var signupSchema= {
+const signupSchema = {
   body: {
     name: Joi.string().required(),
     email: Joi.string().email().required(),
