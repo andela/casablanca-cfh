@@ -2,15 +2,20 @@
  * Module dependencies.
  */
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
 import passport from 'passport';
 import logger from 'mean-logger';
 import io from 'socket.io';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
-dotenv.config();
+import './env';
+import config from './config/config';
+import auth from './config/middlewares/authorization';
+import './app/models/user';
+import './app/models/question';
+import './app/models/answer';
+import passportConfig from './config/passport';
+import expressSettings from './config/express';
+import routes from './config/routes';
+import socket from './config/socket/socket';
 
 /**
  * Main application entry file.
@@ -19,9 +24,9 @@ dotenv.config();
 
 // Load configurations
 // if test env, load example file
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-const config = require('./config/config');
-const auth = require('./config/middlewares/authorization');
+
+
+// const config = require('./config/config');
 
 mongoose.Promise = global.Promise;
 // Bootstrap db connection
@@ -29,26 +34,8 @@ mongoose.connect(config.db, {
   useMongoClient: true
 });
 
-// Bootstrap models
-const modelsPath = path.join(__dirname, '/app/models');
-const walk = (filePath) => {
-  fs.readdirSync(filePath).forEach((file) => {
-    const newPath = `${filePath}/${file}`;
-    const stat = fs.statSync(newPath);
-    if (stat.isFile()) {
-      if (/(.*)\.(js|coffee)/.test(file)) {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        require(newPath);
-      }
-    } else if (stat.isDirectory()) {
-      walk(newPath);
-    }
-  });
-};
-walk(modelsPath);
-
 // bootstrap passport config
-require('./config/passport')(passport);
+passportConfig(passport);
 
 const app = express();
 
@@ -57,17 +44,17 @@ app.use((req, res, next) => {
 });
 
 // express settings
-require('./config/express')(app, passport, mongoose);
+expressSettings(app, passport, mongoose);
 
 // Bootstrap routes
-require('./config/routes')(app, passport, auth);
+routes(app, passport, auth);
 
 // Start the app by listening on <port>
 const { port } = config;
 const server = app.listen(port);
 const ioObj = io.listen(server, { log: false });
 // game logic handled here
-require('./config/socket/socket')(ioObj);
+socket(ioObj);
 
 // eslint-disable-next-line no-console
 console.log(`Express app started on port ${port}`);

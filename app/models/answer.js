@@ -38,4 +38,4 @@ AnswerSchema.statics = {
     }
 };
 
-mongoose.model('Answer', AnswerSchema);
+module.exports = mongoose.model('Answer', AnswerSchema);
