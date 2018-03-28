@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node ./build/server.js",
     "build": "node node_modules/gulp-cli/bin/gulp build",
-    "test": "node node_modules/gulp-cli/bin/gulp test",
+    "test": "NODE_ENV=test node node_modules/gulp-cli/bin/gulp test",
     "start:dev": "npm run build && node node_modules/gulp-cli/bin/gulp",
     "postinstall": "node node_modules/gulp-cli/bin/gulp install",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
@@ -28,14 +28,17 @@
     "bcryptjs": "~1.0.4",
     "bower": "~1.3.8",
     "connect-flash": "~0.1.1",
-    "connect-mongo": "~0.3.3",
+    "connect-mongo": "^2.0.1",
     "console-stamp": "~0.1.1",
     "dotenv": "^5.0.1",
     "express": "~3.4.0",
+    "express-joi-validator": "^2.0.0",
     "forever": "latest",
     "jade": "~0.35.0",
+    "joi": "^13.1.2",
+    "jsonwebtoken": "^8.2.0",
     "mean-logger": "~0.0.1",
-    "mongoose": "~3.6.20",
+    "mongoose": "^4.13.7",
     "passport": "~0.1.17",
     "passport-facebook": "~2.0.0",
     "passport-github": "~0.1.5",
@@ -46,13 +49,15 @@
     "socket.io": "~0.9.16",
     "socket.io-client": "~0.9.16",
     "underscore": "~1.5.2",
-    "view-helpers": "~0.1.3"
+    "view-helpers": "~0.1.3",
+    "watchify": "^3.11.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.23.6",
     "browserify": "^16.1.1",
+    "chai": "^4.1.2",
     "eslint": "^4.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
@@ -73,6 +78,6 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-spec-reporter": "0.0.32",
     "should": "~1.3.0",
-    "supertest": "~0.8.0"
+    "supertest": "^3.0.0"
   }
 }
