@@ -3,9 +3,6 @@ import { expect } from 'chai';
 import User from '../../app/models/user';
 import app from '../../server.js';
 
-// const should = chai.should();
-process.env.NODE_ENV = 'test';
-
 describe('User controller', () => {
   beforeEach((done) => {
     User.remove({}, () => {

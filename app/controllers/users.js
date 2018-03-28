@@ -143,9 +143,9 @@ exports.signupJWT = (req, res) => {
   })
     .exec((err, user) => {
       if (err) {
-        res.status(400).send({
+        res.status(500).send({
           success: false,
-          message: 'Something went wrong saving a user'
+          message: 'Internal server error'
         });
       }
       if (user) {
@@ -165,7 +165,7 @@ exports.signupJWT = (req, res) => {
               name: req.body.name,
               email: req.body.email
             };
-            const token = jwt.sign(payload, process.env.secret, { expiresIn: '365d' });
+            const token = jwt.sign(payload, process.env.secret, { expiresIn: '1w' });
             res.status(201).send({
               success: true,
               message: 'User created successfully',
@@ -174,7 +174,7 @@ exports.signupJWT = (req, res) => {
           })
           .catch(() => {
             res.status(400).send({
-              success: true,
+              success: false,
               message: 'Signup failed'
             });
           });
