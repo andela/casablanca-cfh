@@ -6,6 +6,7 @@ import passport from 'passport';
 import logger from 'mean-logger';
 import io from 'socket.io';
 import mongoose from 'mongoose';
+import './env';
 import config from './config/config';
 import auth from './config/middlewares/authorization';
 import './app/models/user';
