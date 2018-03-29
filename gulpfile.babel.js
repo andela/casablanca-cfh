@@ -21,7 +21,7 @@ gulp.task('lint', () => gulp.src([
 // move none js files to build
 
 gulp.task('clone-json-files', () => {
-  gulp.src('config/env/*.json')
+  gulp.src('config/env/*.js')
     .pipe(gulp.dest('build/config/env'));
 });
 
@@ -47,6 +47,11 @@ gulp.task('jquery', () => {
     .pipe(gulp.dest('public/lib/jquery'));
 });
 
+gulp.task('boostrap', () => {
+  gulp.src('bower_components/bootstrap/**/*')
+    .pipe(gulp.dest('public/lib/bootstrap'));
+});
+
 gulp.task('underscore', () => {
   gulp.src('bower_components/underscore/**/*')
     .pipe(gulp.dest('public/lib/underscore'));
@@ -61,7 +66,8 @@ gulp.task('angularUtils', () => {
 gulp.task('moveBowerComponents', [
   'jquery',
   'underscore',
-  'angularUtils'
+  'angularUtils',
+  'boostrap'
 ]);
 
 // Watch  for file changes
@@ -128,4 +134,3 @@ gulp.task('clone-files', ['clone-json-files',
 gulp.task('build', ['moveBowerComponents', 'clone-files', 'babel']);
 gulp.task('rebuild', ['babel', 'clone-files']);
 gulp.task('default', ['develop', 'watch']);
-
