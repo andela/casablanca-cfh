@@ -1,34 +1,109 @@
-<div id="main-bod" ng-controller="IndexController">
+<div id="siginin-page" ng-controller="IndexController">
   <!-- Fixed Logo & Menu Bar Start -->
-  <div id="top-part">
+  <!-- <div id="top-part">
     <div class="wpb-top-bar">
       <div class="mod-contain" id="navver">
         <div class="row">
-          <!-- Logo -->
           <div class="wpb-logo-container">
-            <div id="landing-logo"> 
+            <div id="landing-logo">
               <span id="first-word">Cards</span>
-              <span id="second-word"> for</span> 
-              <span id="third-word">Humanity</span> 
-            </div> 
+              <span id="second-word"> for</span>
+              <span id="third-word">Humanity</span>
+            </div>
             <div class="col-md-9 wpb-menu-container">
               <ul class="wpb-main-menu">
                 <li><a href="/">Home</a></li>
               </ul>
             </div>
-          </div>      
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- Fixed Logo & Menu Bar End -->
+
+<!-- Login form -->
+<header class="header">
+  <nav class="navbar navbar-expand-lg z-depth-1-half navbar-dark" style="background-color: #fff">
+    <div class="container">
+      <a class="navbar-brand black-text" href="#"><i style="color: #F98D3F" class="fa fa-circle"></i> <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon red-text"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto smooth-scroll">
+          <li class="nav-item">
+              <a class="nav-link black-text" style="border-bottom: 2px solid #F98D3F;" href="#intro">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link black-text" href="#intro">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link black-text" href="#intro">How To Play</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light ml-1 text-center black-text" href="addcenter.html">Charity</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px;" href="signup.html">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect waves-light ml-1 text-center white-text" style="background-color: #256188; border-radius: 20px;" href="signin.html">Sign In</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="intro" class="view hm-black-strong">
+  <div class="" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+      <div class="modal-content round-modal">
+        <div class="modal-header white-text" style="background-color: #256188;">
+          <h4 class="title">
+            <i class="fa fa-lock"></i>
+            Sign In
+          </h4>
+        </div>
+        <div class="modal-body">
+          <!-- Email -->
+          <div class="md-form form-sm">
+            <i style="color: #256188;" class="fa fa-envelope prefix"></i>
+            <input type="email" id="materialFormEmailModalEx1" name="email" class="form-control form-control-sm" value="">
+            <label for="materialFormEmailModalEx1">Your email</label>
+          </div>
+          <!-- Password -->
+          <div class="md-form form-sm">
+            <i style="color: #256188;" class="fa fa-lock prefix"></i>
+            <input type="password" name="password" id="materialFormSubjectModalEx1" value="" class="form-control form-control-sm">
+            <label for="materialFormSubjectModalEx1">Your password</label>
+          </div>
+          <p style="color: #256188 !important;" class="font-small d-flex justify-content-end">Forgot <a style="color: #F98D3F !important;" href="#" class="ml-1"> Password?</a></p>
+          <div class="text-center mt-4 mb-2">
+            <button type="button" style="background-color: #256188;" class="btn btn-block round z-depth-1a waves-effect waves-light">Sign in</button>
+          </div>
+          <p style="color: #256188 !important;" class="font-small text-right d-flex justify-content-center mb-3 pt-2"> or Sign in with:</p>
+          <div class="row my-3 d-flex justify-content-center">
+            <!--Facebook-->
+            <button type="button" class="btn btn-white round mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-facebook blue-text text-center"></i></button>
+            <!--Twitter-->
+            <button type="button" class="btn btn-white round btn-white mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i></button>
+            <!--Google +-->
+            <button type="button" class="btn btn-white round btn-white z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-google-plus black-text"></i></button>
+          </div>
+          <p style="color: #256188 !important;" class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">Don't have an account? <a style="color: #F98D3F !important;" href="#" class="ml-1">Sign Up</a></p>
         </div>
       </div>
     </div>
   </div>
-<!-- Fixed Logo & Menu Bar End -->
+</header>
 
 <!-- Landing Start -->
-<div class="wpb-teaser parallax-background" id="homer">
-  <div class="background-opacity"></div> 
+<!-- <div class="wpb-teaser parallax-background" id="homer">
+  <div class="background-opacity"></div>
   <div class="modified-container">
-    <div class="row" id="main-text"> 
-    <!-- Teaser Text Start -->
+    <div class="row" id="main-text">
     <div id="landing-logo">
       <h2 id="slogan">Sign in with:</h2>
       <div id="login-buttons">
@@ -66,6 +141,5 @@
     </div>
     </div>
     </div>
-  </div>
+  </div> -->
 </div>
-
