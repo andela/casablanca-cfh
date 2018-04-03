@@ -3,10 +3,17 @@
  */
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import { all as avatars } from './avatars';
 
 const User = mongoose.model('User');
 
+/**
+ * An helper to genrate token that expires in one week.
+ * @param {Object} payload The payload to embed in the token.
+ * @returns {String} The token generated.
+ */
+const generateToken = payload => jwt.sign(payload, process.env.secret, { expiresIn: '1w' });
 
 /**
  * @param {object} req
@@ -161,15 +168,10 @@ exports.signupJWT = (req, res) => {
           username: req.body.username
         })
           .then(() => {
-            const payload = {
-              name: req.body.name,
-              email: req.body.email
-            };
-            const token = jwt.sign(payload, process.env.secret, { expiresIn: '1w' });
             res.status(201).send({
               success: true,
               message: 'User created successfully',
-              token
+              token: generateToken({ name: req.body.name, email: req.body.email }),
             });
           })
           .catch(() => {
@@ -178,6 +180,42 @@ exports.signupJWT = (req, res) => {
               message: 'Signup failed'
             });
           });
+      }
+    });
+};
+
+/**
+ * Handles user-login logic and send a resonse with token if successful.
+ * @param {Object} req The request object.
+ * @param {Object} res The response object.
+ * @returns {Object} The response object with some response data.
+ */
+exports.loginJWT = (req, res) => {
+  const { email, password } = req.body;
+  User.findOne({ email })
+    .exec((err, user) => {
+      if (err) {
+        return res.status(500).send({
+          success: false,
+          message: 'Internal server error'
+        });
+      } else if (!user) {
+        res.status(404).send({
+          success: false,
+          message: 'User not found',
+        });
+      } else {
+        if (bcrypt.compareSync(password, user.hashed_password)) {
+          return res.status(200).send({
+            success: true,
+            message: 'Login successful',
+            token: generateToken({ name: user.name, email }),
+          });
+        }
+        return res.status(401).send({
+          success: false,
+          message: 'Incorrect password',
+        });
       }
     });
 };
