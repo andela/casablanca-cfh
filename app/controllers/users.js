@@ -53,6 +53,10 @@ exports.signup = (req, res) => {
   }
 };
 
+exports.search = (req, res) => {
+  
+}
+
 /**
  * @param {object} req
  * @param {object} res
