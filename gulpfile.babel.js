@@ -47,21 +47,6 @@ gulp.task('jquery', () => {
     .pipe(gulp.dest('./build/public/lib/jquery'));
 });
 
-gulp.task('bootstrap', () => {
-  gulp.src('bower_components/bootstrap/**/*')
-    .pipe(gulp.dest('./build/public/lib/bootstrap'));
-});
-
-gulp.task('bootstrap', () => {
-  gulp.src('bower_components/bootstrap/**/*')
-    .pipe(gulp.dest('./build/public/lib/bootstrap'));
-});
-
-gulp.task('angular-bootstrap', () => {
-  gulp.src('bower_components/angular-bootstrap/**/*')
-    .pipe(gulp.dest('./build/public/lib/angular-bootstrap'));
-});
-
 gulp.task('underscore', () => {
   gulp.src('bower_components/underscore/**/*')
     .pipe(gulp.dest('./build/public/lib/underscore'));
@@ -74,11 +59,9 @@ gulp.task('angularUtils', () => {
 
 // Move Bower Components to lib folder
 gulp.task('moveBowerComponents', [
-  'bootstrap',
   'jquery',
   'underscore',
   'angularUtils',
-  'angular-bootstrap'
 ]);
 
 // Watch  for file changes
