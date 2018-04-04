@@ -54,43 +54,53 @@
       </div>
     </div>
   </nav>
-  <div id="intro" class="view hm-black-strong">
+  <div id="intro" class="view">
+    <div class="rgba-black-strong view mask"></div>
   <div class="" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog cascading-modal" role="document">
       <div class="modal-content rounded">
         <div class="modal-header white-text" style="background-color: #256188;">
           <h4 class="title"><i class="fa fa-lock"></i>Sign Up</h4>
         </div>
-        <div class="modal-body">
-          <div class="md-form form-sm">
-            <i style="color: #256188;" class="fa fa-user prefix"></i>
-            <input type="text" name="name" value="" id="materialFormNameModalEx1" class="form-control form-control-sm">
-            <label for="materialFormNameModalEx1">Your full name</label>
-          </div>
+        <form ng-controller="IndexController">
+          <div class="modal-body">
+            <div class="md-form form-sm">
+              <i style="color: #256188;" class="fa fa-user prefix"></i>
+              <input type="text" name="name" value="" id="materialFormNameModalEx1" class="form-control form-control-sm" ng-model="user.name">
+              <label for="materialFormNameModalEx1">Your full name</label>
+            </div>
 
-          <div class="md-form form-sm">
-            <i style="color: #256188;" class="fa fa-envelope prefix"></i>
-            <input type="email" name="email" value="" id="materialFormEmailModalEx1" class="form-control form-control-sm">
-            <label for="materialFormEmailModalEx1">Your email</label>
-          </div>
+            <div class="md-form form-sm">
+              <i style="color: #256188;" class="fa fa-user prefix"></i>
+              <input type="text" name="username" value="" id="materialFormUserNameModalEx1" class="form-control form-control-sm" ng-model="user.username">
+              <label for="materialFormUserNameModalEx1">Enter a username</label>
+            </div>
 
-          <div class="md-form form-sm">
-            <i style="color: #256188;" class="fa fa-lock prefix"></i>
-            <input type="password" name="password" value="" id="materialFormSubjectModalEx1" class="form-control form-control-sm">
-            <label for="materialFormSubjectModalEx1">Your password</label>
-          </div>
+            <div class="md-form form-sm">
+              <i style="color: #256188;" class="fa fa-envelope prefix"></i>
+              <input type="email" name="email" value="" id="materialFormEmailModalEx1" class="form-control form-control-sm" ng-model="user.email">
+              <label for="materialFormEmailModalEx1">Your email</label>
+            </div>
 
-          <div class="text-center mt-4 mb-2">
-            <button type="button" style="background-color: #256188;" class="btn btn-block round z-depth-1a waves-effect waves-light">Sign up</button>
+            <div class="md-form form-sm">
+              {{$scope.password}}
+              <i style="color: #256188;" class="fa fa-lock prefix"></i>
+              <input type="password" name="password" value="" id="materialFormSubjectModalEx1" class="form-control form-control-sm" ng-model="user.password">
+              <label for="materialFormSubjectModalEx1">Your password</label>
+            </div>
+
+            <div class="text-center mt-4 mb-2">
+              <button type="submit" style="background-color: #256188;" class="btn btn-block round z-depth-1a waves-effect waves-light" ng-click="signup(user)">Sign up</button>
+            </div>
+            <p style="color: #256188 !important;" class="font-small text-right d-flex justify-content-center mb-3 pt-2"> or Sign up with:</p>
+            <div class="row my-3 d-flex justify-content-center">
+              <button type="button" class="btn btn-white round mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-facebook blue-text text-center"></i></button>
+              <button type="button" class="btn btn-white round btn-white mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i></button>
+              <button type="button" class="btn btn-white round btn-white z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-google-plus black-text"></i></button>
+            </div>
+            <p style="color: #256188 !important;" class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">Have an account? <a style="color: #F98D3F !important;" href="#" class="ml-1">Sign In</a></p>
           </div>
-          <p style="color: #256188 !important;" class="font-small text-right d-flex justify-content-center mb-3 pt-2"> or Sign up with:</p>
-          <div class="row my-3 d-flex justify-content-center">
-            <button type="button" class="btn btn-white round mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-facebook blue-text text-center"></i></button>
-            <button type="button" class="btn btn-white round btn-white mr-md-3 z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i></button>
-            <button type="button" class="btn btn-white round btn-white z-depth-1a waves-effect waves-light"><i style="color: #256188 !important;" class="fa fa-google-plus black-text"></i></button>
-          </div>
-          <p style="color: #256188 !important;" class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">Have an account? <a style="color: #F98D3F !important;" href="#" class="ml-1">Sign In</a></p>
-        </div>
+      </form>
       </div>
     </div>
   </div>
