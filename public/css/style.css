@@ -1,91 +1,94 @@
- html,
- body,
- .header,
- #intro {
-     height: 100%;
- }
+/* Your custom styles */
+html,
+body,
+.header,
+#intro {
+    height: 760px;
+}
 
- .dark {
-   color: #000 !important
- }
+.dark {
+  color: #000 !important
+}
 
- #intro {
-   background: url(../img/lightbox/cfh7.jpg)no-repeat center center fixed;
-   -webkit-background-size: cover;
-   -moz-background-size: cover;
-   -o-background-size: cover;
-   background-size: cover;
- }
+#intro {
+  background: url(../img/cfh7.jpg)no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
- /* .btn.btn-md {
-   padding: .9rem 5rem;
-   font-size: .7rem;
- } */
+/* .btn.btn-md {
+  padding: .9rem 5rem;
+  font-size: .7rem;
+} */
 
- ul {
-   list-style: none;
- }
+ul {
+  list-style: none;
+}
 
- .mb-5, .my-5 {
-   margin-bottom: .1rem!important;
- }
+.mb-5, .my-5 {
+  margin-bottom: .1rem!important;
+}
 
- .solidborder {
-   border-top: 40px solid #256188;
- }
+.solidborder {
+  border-top: 40px solid #256188;
+}
 
- .space {
-   margin-top: 80px
- }
+.space {
+  margin-top: 80px
+}
 
- .fa-caret-right {
-   color: #256188
- }
+.fa-caret-right {
+  color: #256188
+}
 
- .fa-caret-left {
-   color: #256188
- }
+.fa-caret-left {
+  color: #256188
+}
 
- .fa-caret-up {
-   color: #256188
- }
+.fa-caret-up {
+  color: #256188
+}
 
- .fa-caret-down {
-   color: #256188
- }
+.fa-caret-down {
+  color: #256188
+}
 
- .round {
-   border-radius: 28px
- }
+.round {
+  border-radius: 28px
+}
 
- .round-modal {
-   border-radius: 11px !important
- }
+.round-modal {
+  border-radius: 11px !important
+}
 
- @media(max-width: 575px) {
-   .modal-dialog .modal-content {
-     margin-top: 62px !important;
-   }
- }
+@media(max-width: 575px) {
+  .modal-dialog .modal-content {
+    margin-top: 62px !important;
+  }
+}
 
- /* @media (max-width: 576px) and (max-width: 767px) {
-   .modal-dialog .modal-content {
-     margin-top: 90px;
-   }
- } */
+/* @media (max-width: 576px) and (max-width: 767px) {
+  .modal-dialog .modal-content {
+    margin-top: 90px;
+  }
+} */
 
- @media (max-width: 992px) and (max-width: 1199px) {
+@media (max-width: 992px) and (max-width: 1199px) {
+  
+}
 
- }
+.modal-dialog .modal-content {
+  margin-top: 60px;
+}
 
- .modal-dialog .modal-content {
-   margin-top: 60px;
- }
+.rounded {
+  margin-top: -41px !important;
+}
 
- .rounded {
-   margin-top: -41px !important;
- }
-
- #siginin-page {
-   height: 100%;
- }
+.navbar .navbar-toggler {
+  outline: 0;
+  border-width: 0;
+  background-color: #256188 !important;
+}

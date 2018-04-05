@@ -2,6 +2,7 @@
 import expressJoi from 'express-joi-validator';
 import users from '../app/controllers/users';
 import signupSchema from '../app/validators/signupSchema.js';
+import loginSchema from '../app/validators/loginSchema';
 import answers from '../app/controllers/answers';
 import questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
@@ -32,6 +33,9 @@ module.exports = (app, passport) => {
 
   // new signup routes
   app.post('/api/auth/signup', expressJoi(signupSchema), users.signupJWT);
+
+  // new login route
+  app.post('/api/auth/login', expressJoi(loginSchema), users.loginJWT);
 
   // Setting the facebook oauth routes
   app.get('/auth/facebook', passport.authenticate('facebook', {
