@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+import { isEmail } from 'validator';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -54,8 +55,20 @@ exports.signup = (req, res) => {
 };
 
 exports.search = (req, res) => {
-  
-}
+  User.find({}, (error, users) => {
+    if (error) {
+      return res.status(500).json({
+        message: 'Server error.'
+      });
+    }
+
+
+
+
+    return res.json(users);
+  });
+};
+
 
 /**
  * @param {object} req
