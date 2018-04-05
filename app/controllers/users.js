@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+import { isEmail } from 'validator';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
