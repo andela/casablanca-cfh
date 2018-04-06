@@ -17,6 +17,10 @@ angular
       $scope.modalShown = false;
       $scope.game = game;
       $scope.pickedCards = [];
+      $scope.selectedUsers = [];
+      $scope.invitedUsers = [];
+      $scope.filteredUsers = [];
+      $scope.allUsers = [];
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
 
@@ -290,5 +294,64 @@ angular
       } else {
         game.joinGame($scope.gameRegion);
       }
+
+      // trigger invite modal
+      const triggerInviteModal = () => {
+        $('#inviteFriends').modal({ show: true, });
+      };
+
+      $scope.getUsers = () => {
+        $http({
+          method: 'GET',
+          url: 'api/search/users'
+        }).then((response) => {
+          $scope.allUsers = [...response.data];
+        }).then(() => {
+          triggerInviteModal();
+        });
+      };
+      $scope.countPlayers = (userEmail) => {
+        $scope.selectedUsers.push(userEmail);
+      };
+
+      $scope.selectedUsersLength = $scope.selectedUsers.length;
+      $scope.showSending = false;
+
+      $scope.invitePlayers = (email) => {
+        const userDetails = {
+          email,
+          urlLink: document.URL,
+        };
+        $http({
+          method: 'POST',
+          url: '/api/user/invite/:user',
+          data: userDetails
+        });
+        // Close invitation modal and show mail sent information
+        $scope.showSending = true;
+        setTimeout(() => { $('#inviteFriends').modal('hide'); }, 3000);
+        setTimeout(() => { $scope.showSending = false; }, 3000);
+        $scope.input = '';
+        $scope.searchTerm = '';
+      };
+
+      $scope.filteredUsersLength = $scope.filteredUsers.length;
+      $scope.searchUsers = (searchTerm) => {
+        if (!searchTerm) {
+          $scope.filteredUsers = [];
+        } else {
+          const regexSearchTerm = RegExp($scope.searchTerm, 'gi');
+          $scope.filteredUsers = $scope.allUsers.filter((user) => {/* eslint-disable-line */
+            if (user.name.search(regexSearchTerm) !== -1) {
+              return user;
+            }
+          });
+        }
+      };
+
+      $scope.input = '';
+      $scope.updateEmailEntry = (user) => {
+        $scope.input = user.email;
+      };
     }
   ]);

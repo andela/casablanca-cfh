@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
-import mailer from 'node-mailer';
 import { all as avatars } from './avatars';
 
 const User = mongoose.model('User');
@@ -70,14 +69,13 @@ exports.search = (req, res) => {
 
 exports.invitePlayers = (req, res) => {
   const recieverEmail = req.body.email;
-
-  nodemailer.createTestAccount((err, account) => {
+  nodemailer.createTestAccount((err, account) => {/* eslint-disable-line */
   // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.MAILER_EMAIL, // generated ethereal user
-        pass: process.env.MAILER_PASSWORD // generated ethereal password
+        user: process.env.MAILER_EMAIL,
+        pass: process.env.MAILER_PASSWORD
       }
     });
 
@@ -86,8 +84,8 @@ exports.invitePlayers = (req, res) => {
       from: 'noreply@casablanca-cfh.com', // sender address
       to: recieverEmail, // receiver
       subject: 'CFH Game Invite', // Subject line
-      text: `Hello ${req.body.name}, 
-      ${req.body.from} has requested that you join a game of 
+      text: `Hi there, 
+      A friend has requested that you join a game of 
       Cards For Humanity. To do so, please click on the link below
       or if that does not work, copy and paste it in your browser.
        ${req.body.urlLink}
@@ -105,28 +103,6 @@ exports.invitePlayers = (req, res) => {
     });
   });
 };
-
-exports.invitePlayer = (req, res) => {
-  const recieverEmail = req.body.email;
-  new mailer.Mail({
-    from: 'noreply@casablanca-cfh.com',
-    to: recieverEmail,
-    subject: 'CFH Game Invite',
-    body: `Hello ${req.body.name}, 
-    ${req.body.from} has requested that you join a game of 
-    Cards For Humanity. To do so, please click on the link below
-    or if that does not work, copy and paste it in your browser.
-     ${req.body.urlLink}
-     
-     Signed,
-     Casasblanca-CFH`,
-    callback(err, data) {
-      if (error) {
-        return res.json();
-      }
-      return res.json({ sent: true });
-    }
-  });
 
 
 /**
@@ -386,3 +362,4 @@ exports.user = (req, res, next, id) => {
       next();
     });
 };
+

@@ -62,7 +62,7 @@
               <h1 class="h1-responsive title white-text mr-5 mb-3"><strong>Cards For Humanity</strong></h1>
               <h3 class="h3-responsive white-text mr-5 mb-4">A GAME FOR HORRIBLE PEOPLE <span style="color: #F98D3F">DESPERATELY</span> TRYING TO BE GOOD</h3>
               <div ng-controller="IndexController"> 
-              <a ng-hide="loggedIn" href="#!/signup" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md">Sign Up</a>
+                  <a href="/play?custom" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md">Play Custom Game</a>
               <a ng-show="loggedIn" data-toggle="modal" data-target="#exampleModal" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md">Play With Friends</a>
               <a href="" data-toggle="modal" data-target="#exampleModal" ng-click="setCustom()" style="background-color: #256188" class="btn btn-md">{{userButton}}</a>
               </div>
