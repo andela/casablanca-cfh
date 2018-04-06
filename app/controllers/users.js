@@ -1,11 +1,11 @@
 /**
  * Module dependencies.
  */
-import { isEmail } from 'validator';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
+import mailer from 'node-mailer';
 import { all as avatars } from './avatars';
 
 const User = mongoose.model('User');
@@ -105,6 +105,28 @@ exports.invitePlayers = (req, res) => {
     });
   });
 };
+
+exports.invitePlayer = (req, res) => {
+  const recieverEmail = req.body.email;
+  new mailer.Mail({
+    from: 'noreply@casablanca-cfh.com',
+    to: recieverEmail,
+    subject: 'CFH Game Invite',
+    body: `Hello ${req.body.name}, 
+    ${req.body.from} has requested that you join a game of 
+    Cards For Humanity. To do so, please click on the link below
+    or if that does not work, copy and paste it in your browser.
+     ${req.body.urlLink}
+     
+     Signed,
+     Casasblanca-CFH`,
+    callback(err, data) {
+      if (error) {
+        return res.json();
+      }
+      return res.json({ sent: true });
+    }
+  });
 
 
 /**
