@@ -1,9 +1,9 @@
 /**
  * Module dependencies.
  */
-import { isEmail } from 'validator';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
 import { all as avatars } from './avatars';
 
@@ -54,6 +54,7 @@ exports.signup = (req, res) => {
   }
 };
 
+// returns all users
 exports.search = (req, res) => {
   User.find({}, (error, users) => {
     if (error) {
@@ -62,10 +63,45 @@ exports.search = (req, res) => {
       });
     }
 
-
-
-
     return res.json(users);
+  });
+};
+
+exports.invitePlayers = (req, res) => {
+  const recieverEmail = req.body.email;
+
+  nodemailer.createTestAccount((err, account) => {
+  // create reusable transporter object using the default SMTP transport
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAILER_EMAIL, // generated ethereal user
+        pass: process.env.MAILER_PASSWORD // generated ethereal password
+      }
+    });
+
+    // setup email data with unicode symbols
+    const mailOptions = {
+      from: 'noreply@casablanca-cfh.com', // sender address
+      to: recieverEmail, // receiver
+      subject: 'CFH Game Invite', // Subject line
+      text: `Hello ${req.body.name}, 
+      ${req.body.from} has requested that you join a game of 
+      Cards For Humanity. To do so, please click on the link below
+      or if that does not work, copy and paste it in your browser.
+       ${req.body.urlLink}
+       
+       Signed,
+       Casasblanca-CFH`, // plain text body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.json(error);
+      }
+      return res.json({ sent: true, info });
+    });
   });
 };
 
@@ -268,7 +304,7 @@ exports.addDonation = (req, res) => {
         .exec((err, user) => {
           // Confirm that this object hasn't already been entered
           let duplicate = false;
-          for (let i = 0; i < user.donations.length; i += 1) {
+          for (let i = 0; i < user.donations.length; i = 1) {
             if (user.donations[i].crowdrise_donation_id === req.body.crowdrise_donation_id) {
               duplicate = true;
             }
