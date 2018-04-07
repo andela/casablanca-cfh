@@ -1,5 +1,5 @@
 angular.module('mean-system')
-.controller('UserController', ['$scope', '$location', '$http',
+  .controller('UserController', ['$scope', '$location', '$http',
     ($scope, $location, $http) => {
       const vm = $scope;
 

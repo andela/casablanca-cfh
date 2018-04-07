@@ -1,5 +1,5 @@
 angular.module('mean.system')
-.controller('IndexController', ['$scope', '$http', '$window', 'Global', '$location', 'socket', 'game', 'AvatarService', ($scope, $http, $window, Global, $location, socket, game, AvatarService) => {
+  .controller('IndexController', ['$scope', '$http', '$window', 'Global', '$location', 'socket', 'game', 'AvatarService', ($scope, $http, $window, Global, $location, socket, game, AvatarService) => {
     $scope.global = Global;
     $scope.name = '';
     $scope.email = '';
@@ -24,12 +24,33 @@ angular.module('mean.system')
         $scope.avatars = data;
       });
 
-    $scope.signup = (user) => {
-      $http.post('/api/auth/signup', user)
-        .then((response) => {
-          console.log(response);
-          $location.path('/');
-          $window.localStorage.setItem('token', response.data.token);
-        });
+    $scope.signup = (user, signupForm) => {
+      $scope.signupFormSubmitted = true;
+      $scope.signupError = null;
+      if (signupForm.$valid) {
+        $http.post('/api/auth/signup', user)
+          .then((response) => {
+            $location.path('/');
+            $window.localStorage.setItem('token', response.data.token);
+          }, (error) => {
+            $scope.signupError = error.data.message;
+          });
+        $scope.signupFormSubmitted = false;
+      }
     };
-}]);
+
+    $scope.signin = (user, signinForm) => {
+      $scope.signinFormSubmitted = true;
+      $scope.signinError = null;
+      if (signinForm.$valid) {
+        $http.post('/api/auth/login', user)
+          .then((response) => {
+            $location.path('/');
+            $window.localStorage.setItem('token', response.data.token);
+          }, (error) => {
+            $scope.signinError = error.data.message;
+          });
+        $scope.signinFormSubmitted = false;
+      }
+    };
+  }]);
