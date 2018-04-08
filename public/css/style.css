@@ -11,7 +11,7 @@ body,
 }
 
 #intro {
-  background: url(../img/cfh7.jpg)no-repeat center center fixed;
+  background: url('http://res.cloudinary.com/eventsmanager/image/upload/c_scale,w_1830/v1523036385/cfh7_egarzd.jpg')no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
