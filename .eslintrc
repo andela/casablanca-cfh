@@ -12,7 +12,8 @@
     "mocha": true
   },
   "globals": {
-    "gulp": true
+    "gulp": true,
+    "angular": true
   },
   "rules": {
     "one-var": 0,
