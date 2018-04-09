@@ -8,6 +8,8 @@ import * as answers from '../app/controllers/answers';
 import * as questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
 import index from '../app/controllers/index';
+import Authorization from '../config/middlewares/authorization';
+import saveGameLog from '../app/controllers/game';
 
 module.exports = (app, passport) => {
   // User Routes
@@ -99,6 +101,9 @@ module.exports = (app, passport) => {
   // Home route
   app.get('/play', index.play);
   app.get('/', index.render);
+
+  // Game route
+  app.post('/api/games/:id/start', Authorization.requiresLogin, saveGameLog);
 
   // error handler
   app.use((err, req, res) => {

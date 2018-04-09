@@ -54,25 +54,24 @@ export default class Authorization {
  * @memberof Authorization
  */
   static requiresLogin(req, res, next) {
-    const token = req.headers.authorization || req.body.token || req.headers.token;
+    const token = req.headers['x-access-token'];
     if (!(token)) {
       return res.status(401).json({
-        message: 'Missing token. Expects token in header or body'
+        message: 'Missing token. Expects token in header'
       });
     }
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.secret, (err, decoded) => {
       if (err) {
         if (err.message === 'jwt expired') {
-          res.status(401).json({
+          return res.status(401).json({
             message: 'Access token has expired. You are required to login again'
           });
-        } else {
-          res.status(401).json({
-            message: 'Authentication failed. Invalid access token'
-          });
         }
+        return res.status(401).json({
+          message: 'Authentication failed. Invalid access token'
+        });
       }
-      req.payload = decoded.payload;
+      req.decoded = decoded;
       next();
     });
   }
