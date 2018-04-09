@@ -18,11 +18,6 @@ body,
   background-size: cover;
 }
 
-/* .btn.btn-md {
-  padding: .9rem 5rem;
-  font-size: .7rem;
-} */
-
 ul {
   list-style: none;
 }
@@ -68,12 +63,6 @@ ul {
     margin-top: 62px !important;
   }
 }
-
-/* @media (max-width: 576px) and (max-width: 767px) {
-  .modal-dialog .modal-content {
-    margin-top: 90px;
-  }
-} */
 
 @media (max-width: 992px) and (max-width: 1199px) {
   
