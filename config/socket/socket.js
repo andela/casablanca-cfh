@@ -131,6 +131,7 @@ module.exports = function(io) {
         game.sendUpdate();
         game.sendNotification(player.username+' has joined the game!');
         if (game.players.length >= game.playerMaxLimit) {
+          //: stsrt fame here as per max limit
           gamesNeedingPlayers.shift();
           game.prepareGame();
         }

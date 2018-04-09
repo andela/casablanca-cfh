@@ -53,7 +53,7 @@
               <h3 class="h3-responsive white-text mr-5 mb-4">A GAME FOR HORRIBLE PEOPLE <span style="color: #F98D3F">DESPERATELY</span> TRYING TO BE GOOD</h3>
               <div> 
               <a href="editevent.html" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md animated pulse infinite">Sign Up</a>
-              <a href="deleteevent.html" style="background-color: #256188" class="btn btn-md animated pulse infinite">Play As Guest</a>
+              <a href="/play" style="background-color: #256188" class="btn btn-md animated pulse infinite">Play As Guest</a>
               </div>
             </li>  
           </ul>
@@ -79,6 +79,31 @@
           uncensored and complete,  in digital form. Human Resources made us say that.</p>             
       </div>
     </section>
+  </div>
+  <div id="start-game-container" ng-controller="IndexController">
+      <div class="btn btn-primary" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" style="border-radius:20px; background-color:#F98D3F !important">
+        Wanna Start Game?
+      </div>
+        <!-- Start Game Modal -->
+      <div class="modal fade" id="startGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title text-center" id="exampleModalLabel"><i style="color: #F98D3F" class="fa fa-circle"></i> <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body text-center">
+                      <h4>Do you want to start the game?</h4>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" style="background-color: #F98D3F !important" class="btn btn-secondary" data-dismiss="modal">No, Dont</button>
+                      <button type="button" style="background-color: #256188 !important" id="start" class="btn btn-primary btn-success" ng-click="startGame()">Start Game</button>
+                  </div>
+              </div>
+          </div>
+        </div>
   </div>
 </main>
 <hr class="solidborder">

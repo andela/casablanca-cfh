@@ -1,13 +1,15 @@
+
 // import async from 'async';
 import expressJoi from 'express-joi-validator';
 import users from '../app/controllers/users';
 import signupSchema from '../app/validators/signupSchema.js';
 import loginSchema from '../app/validators/loginSchema';
-import answers from '../app/controllers/answers';
-import questions from '../app/controllers/questions';
+import * as answers from '../app/controllers/answers';
+import * as questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
 import index from '../app/controllers/index';
-
+import Authorization from '../config/middlewares/authorization';
+import saveGameHistory from '../app/controllers/game';
 
 module.exports = (app, passport) => {
   // User Routes
@@ -89,7 +91,7 @@ module.exports = (app, passport) => {
 
   // Question Routes
   app.get('/questions', questions.all);
-  app.get('/questions/:questionId', questions.show);
+  app.get('/questions/:questionId', questions.showAQuestion);
   // Finish with setting up the questionId param
   app.param('questionId', questions.question);
 
@@ -100,6 +102,9 @@ module.exports = (app, passport) => {
   app.get('/play', index.play);
   app.get('/', index.render);
 
+  // Game route
+  app.post('/api/games/:id/start', Authorization.requiresLogin, saveGameHistory);
+
   // error handler
   app.use((err, req, res, next) => {
     if (err.isBoom) {
@@ -107,3 +112,4 @@ module.exports = (app, passport) => {
     }
   });
 };
+

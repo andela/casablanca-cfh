@@ -3,7 +3,7 @@ html,
 body,
 .header,
 #intro {
-    height: 760px;
+min-height: 1000vh;
 }
 
 .dark {
@@ -67,16 +67,21 @@ ul {
   .modal-dialog .modal-content {
     margin-top: 62px !important;
   }
+  .trans {
+    min-height: 84vh !important;
+  }
 }
 
-/* @media (max-width: 576px) and (max-width: 767px) {
-  .modal-dialog .modal-content {
-    margin-top: 90px;
+@media (max-width: 576px) and (max-width: 767px) {
+  .trans {
+    min-height: 84vh !important;
   }
-} */
+}
 
 @media (max-width: 992px) and (max-width: 1199px) {
-  
+  .trans {
+    min-height: 84vh !important;
+  }
 }
 
 .modal-dialog .modal-content {
@@ -91,4 +96,47 @@ ul {
   outline: 0;
   border-width: 0;
   background-color: #256188 !important;
+}
+
+.ttp {
+  margin-top: -3px
+}
+
+.space {
+  margin-top: 20px
+}
+
+.shrink {
+  height: 34px;
+  width: 33px
+}
+
+.avatar {
+  margin-top: -37px;
+  height: 40px;
+  width: 38px
+}
+
+.big {
+  font-size: 78px;
+  margin-top: -30px;
+  text-align: center
+}
+
+.roundup {
+  border-top-right-radius: 80px;
+  border-top-left-radius: 80px;
+  height: 100%;
+}
+
+.caz {
+  height: 48px
+}
+
+.custom-blue {
+  background-color: #256188;
+}
+
+.custom-orange {
+  background-color: #F98D3F;
 }
