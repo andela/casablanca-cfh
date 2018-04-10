@@ -3,7 +3,7 @@ html,
 body,
 .header,
 #intro {
-min-height: 1000vh;
+min-height: 102vh;
 }
 
 .dark {
@@ -128,10 +128,28 @@ ul {
   height: 48px
 }
 
-.custom-blue {
-  background-color: #256188;
+.trans {
+  height: 184px;
 }
 
 .custom-orange {
   background-color: #F98D3F;
 }
+.drop {
+  margin-top: 30px
+}
+
+.middle {
+  margin-right: 11rem!important;
+}
+
+.question-text u {
+  position: relative;
+  content: '';
+  display: inline-block;
+  width: 25%;
+  text-decoration: none;
+  height: 1em;
+  border-bottom: 0.125em solid #256188;
+  margin-bottom: -0.125em;
+ }

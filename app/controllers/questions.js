@@ -61,7 +61,7 @@ exports.all = (req, res) => {
  */
 exports.allQuestionsForGame = function (cb) {
   Question.find({}, ((err, questions) => {
-    if (err) {
+    if (err) {     
       console.log(err);
     } else {
       cb(questions);

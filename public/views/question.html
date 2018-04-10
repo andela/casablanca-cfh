@@ -19,12 +19,12 @@
         </div>
 
         <!-- Question -->
-        <span ng-bind-html="game.curQuestion.text" class="mt-3 ml-3 d-3" style="font-size: 20px;" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'">
+        <span ng-bind-html="game.curQuestion.text" class="mt-3 question-text" style="font-size: 20px;" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'">
         </span>
 
         <!-- Start game button -->
-        <div class="btn btn-primary ml-4 z-depth-3" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" ng-show="game.state === 'awaiting players'"
-          style="border-radius:20px; background-color:#F98D3F !important">
+        <div class="btn btn-primary btn-sm ml-2 z-depth-3" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" ng-show="game.state === 'awaiting players'"
+          style="border-radius:20px; margin-top: 7px; background-color:#F98D3F !important">
           Wanna Start Game?
         </div>
 
@@ -36,9 +36,10 @@
     <!-- Game Over Stuff -->
     <div id="game-end-info">
       <div id="people-left-game-top" ng-show="game.state ==='game dissolved' && game.gameWinner === -1">
-        <div class="game-end-headline">What the!? The game ended because too many people left! </div>
-        Our sincere apologies.
+        <div style="margin-left: 60px" class="game-end-headline">What the!? The game ended because too many people left! Our sincere apologies.</div>
+        <img class="middle" style="margin: 26px auto;height: 82px;" src="../img/sad.png" alt="">
       </div>
+   
       <div ng-show="game.state === 'game ended' && game.gameWinner === game.playerIndex">
         <div class="game-end-headline">Congratulations! You won the game, {{game.players[game.playerIndex].username | upperFirstLetter}}!</div>We hope you
         feel special. If you'd like to share that special feeling with the world, consider donating to charity. Or just horde
@@ -53,7 +54,7 @@
 </div>
 
 <!-- Start Game Modal -->
-<div class="modal fade" id="startGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade animated flipInY" id="startGameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -68,15 +69,16 @@
         <h4>Do you want to start the game?</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" style="background-color: #F98D3F !important" class="btn btn-secondary" data-dismiss="modal">No, Dont</button>
-        <button type="button" style="background-color: #256188 !important" id="start" class="btn btn-primary btn-success" ng-click="startGame()">Start Game</button>
+        <button type="button" style="background-color: #F98D3F !important;  border-radius:20px;" class="btn btn-sm btn-secondary" data-dismiss="modal">No, Dont</button>
+        <button type="button" style="background-color: #256188 !important;  border-radius:20px;" id="start" class="btn btn-sm btn-primary btn-success" ng-click="startGame()">Start Game</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Minimum number of Players Modal-->
-<div class="modal fade" id="awaitPlayersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal  animated flipInY fade" id="awaitPlayersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -92,7 +94,7 @@
         <h4>You need {{game.playerMinLimit - game.players.length}} more player(s) to start Game</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" style="background-color: #F98D3F !important" data-dismiss="modal">Wait</button>
+        <button type="button" class="btn btn-sm btn-secondary" style="background-color: #F98D3F !important; border-radius:20px;" data-dismiss="modal">Wait</button>
       </div>
     </div>
   </div>
