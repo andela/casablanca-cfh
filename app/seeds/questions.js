@@ -489,5 +489,5 @@ const questionsList = [
 ];
 
 questionsList.forEach((question) => {
-  db.questions.insert(question);
+  db.questions.insert(question); /* eslint-disable-line */
 });

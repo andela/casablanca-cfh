@@ -6,8 +6,6 @@
 //   Question = mongoose.model('Question'),
 //   _ = require('underscore');
 import mongoose from 'mongoose';
-import async from 'async';
-import _ from 'underscore';
 
 const Question = mongoose.model('Question');
 
@@ -59,10 +57,10 @@ exports.all = (req, res) => {
 /**
  * List of Questions (for Game class)
  */
-exports.allQuestionsForGame = function (cb) {
+exports.allQuestionsForGame = (cb) => {
   Question.find({}, ((err, questions) => {
-    if (err) {     
-      console.log(err);
+    if (err) {
+      throw err;
     } else {
       cb(questions);
     }

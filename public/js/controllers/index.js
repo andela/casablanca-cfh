@@ -23,23 +23,6 @@ angular.module('mean.system')
         $scope.avatars = data;
       });
 
-    // $scope.saveGameLog = (gameHistory) => {
-    //   if (game.state === ' game ended' && $window.localStorage.token) {
-    //     const request = {
-    //       method: 'POST',
-    //       url: `http://localhost:3000/api/games/${game.gameID}/start`,
-    //       headers: {
-    //         'x-access-token': $window.localStorage.getItem('token')
-    //       },
-    //       gameHistory
-    //     };
-    //     $http(request)
-    //       .then(
-    //         response => response.data,
-    //         error => error.data
-    //       );
-    //   }
-    // };
     $scope.signup = (user, signupForm) => {
       $scope.signupFormSubmitted = true;
       $scope.signupError = null;

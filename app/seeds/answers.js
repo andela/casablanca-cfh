@@ -411,5 +411,5 @@ const answersList = [
 ];
 
 answersList.forEach((answer) => {
-  db.answers.insert(answer);
+  db.answers.insert(answer); /* eslint-disable-line */
 });

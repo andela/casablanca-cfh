@@ -8,8 +8,6 @@ import * as answers from '../app/controllers/answers';
 import * as questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
 import index from '../app/controllers/index';
-import Authorization from '../config/middlewares/authorization';
-import saveGameHistory from '../app/controllers/game';
 
 module.exports = (app, passport) => {
   // User Routes
@@ -91,7 +89,7 @@ module.exports = (app, passport) => {
 
   // Question Routes
   app.get('/questions', questions.all);
-  app.get('/questions/:questionId', questions.showAQuestion);
+  app.get('/questions/:questionId', questions.show);
   // Finish with setting up the questionId param
   app.param('questionId', questions.question);
 
@@ -102,11 +100,8 @@ module.exports = (app, passport) => {
   app.get('/play', index.play);
   app.get('/', index.render);
 
-  // Game route
-  app.post('/api/games/:id/start', Authorization.requiresLogin, saveGameHistory);
-
   // error handler
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     if (err.isBoom) {
       return res.status(err.output.statusCode).json(err.output.payload);
     }

@@ -6,9 +6,7 @@ angular
     '$timeout',
     '$location',
     'MakeAWishFactsService',
-    '$http',
-    '$window',
-    ($scope, game, $timeout, $location, MakeAWishFactsService, $http, $window) => {
+    ($scope, game, $timeout, $location, MakeAWishFactsService) => {
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
       $scope.showTable = false;
@@ -18,7 +16,7 @@ angular
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
 
-      $scope.switchColors = (index) => index % 2 === 0
+      $scope.switchColors = index => (index % 2 === 0
         ? {
           'background-color': '#F98D3F',
           height: '170px'
@@ -26,7 +24,7 @@ angular
         : {
           'background-color': '#256188',
           height: '170px'
-        };
+        });
 
       $scope.pickCard = (card) => {
         if (!$scope.hasPickedCards) {
@@ -52,7 +50,7 @@ angular
 
       $scope.pointerCursorStyle = () => {
         if ($scope.isCzar() && $scope.game.state === 'waiting for czar to decide') {
-          return {cursor: 'pointer'};
+          return { cursor: 'pointer' };
         }
         return {};
       };
@@ -90,9 +88,11 @@ angular
         return false;
       };
 
-      $scope.showFirst = card => game.curQuestion.numAnswers > 1 && $scope.pickedCards[0] === card.id;
+      $scope.showFirst = card => game.curQuestion.numAnswers > 1
+      && $scope.pickedCards[0] === card.id;
 
-      $scope.showSecond = card => game.curQuestion.numAnswers > 1 && $scope.pickedCards[1] === card.id;
+      $scope.showSecond = card => game.curQuestion.numAnswers > 1
+      && $scope.pickedCards[1] === card.id;
 
       $scope.isCzar = () => game.czar === game.playerIndex;
 
@@ -122,7 +122,6 @@ angular
 
       $scope.startGame = () => {
         game.startGame();
-        $('#startGameModal').modal('hide');
       };
 
       $scope.abandonGame = () => {
@@ -148,10 +147,6 @@ angular
         if (game.state === 'waiting for czar to decide' && $scope.showTable === false) {
           $scope.showTable = true;
         }
-        // check if game ended and call the save log method
-        if (game.state === 'game ended') {
-          $scope.saveGameLog(game);
-        }
       });
 
       $scope.$watch('game.gameID', () => {
@@ -163,14 +158,16 @@ angular
           } else if ($scope.isCustomGame() && !$location.search().game) {
             // Once the game ID is set, update the URL if this is a game with friends, where
             // the link is meant to be shared.
-            $location.search({game: game.gameID});
+            $location.search({ game: game.gameID });
             if (!$scope.modalShown) {
               setTimeout(() => {
                 const link = document.URL;
                 const txt = 'Give the following link to your friends so they can join your game: ';
                 $('#lobby-how-to-play').text(txt);
                 $('#oh-el')
-                  .css({'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black'})
+                  .css({
+                    'text-align': 'center', 'font-size': '22px', background: 'white', color: 'black'
+                  })
                   .text(link);
               }, 200);
               $scope.modalShown = true;
@@ -179,46 +176,9 @@ angular
         }
       });
 
-      $scope.triggerModal = () => {
-        if (game.players.length < game.playerMinLimit) {
-          $('#awaitPlayersModal').modal('show');
-        } else {
-          // Todo: use greater than and equal to swap the modals
-          $('#startGameModal').modal('show');
-        }
-      };
-
-      $scope.saveGameLog = (gameInfo) => {
-        console.log(gameInfo.state);
-        console.log('===>gameInfo', gameInfo);
-        const gamePlayers = gameInfo
-          .players
-          .map(players => players.username);
-        const gameHistory = {
-          winner: gameInfo.winner,
-          round: gameInfo.round,
-          gamePlayers
-
-        };
-        const request = {
-          method: 'POST',
-          url: `/api/games/${gameInfo.gameID}/start`,
-          headers: {
-            'x-access-token': $window
-              .localStorage
-              .getItem('token')
-          },
-          gameHistory
-        };
-        $http(request).then(res => console.log('===>Response', res.data)
-
-        // response => response.data, error => error.data
-        );
-      };
-
       // Add this to the game controller
       $scope.allAnswers = (table) => {
-        const allAnswerCard = table.map((answer) => answer.card).filter((card) => typeof card === 'object');
+        const allAnswerCard = table.map(answer => answer.card).filter(card => typeof card === 'object');
         const result = allAnswerCard
           .concat
           .apply([], allAnswerCard);
