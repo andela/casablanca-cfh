@@ -3,7 +3,7 @@ html,
 body,
 .header,
 #intro {
-    height: 760px;
+min-height: 102vh;
 }
 
 .dark {
@@ -62,10 +62,21 @@ ul {
   .modal-dialog .modal-content {
     margin-top: 62px !important;
   }
+  .trans {
+    min-height: 84vh !important;
+  }
 }
+/* Removed when merging
+@media (max-width: 576px) and (max-width: 767px) {
+  .trans {
+    min-height: 84vh !important;
+  } 
+}*/
 
 @media (max-width: 992px) and (max-width: 1199px) {
-  
+  .trans {
+    min-height: 84vh !important;
+  }
 }
 
 .modal-dialog .modal-content {
@@ -81,3 +92,76 @@ ul {
   border-width: 0;
   background-color: #256188 !important;
 }
+
+.ttp {
+  margin-top: -3px
+}
+
+.space {
+  margin-top: 20px
+}
+
+.shrink {
+  height: 34px;
+  width: 33px
+}
+
+.avatar {
+  margin-top: -37px;
+  height: 40px;
+  width: 38px
+}
+
+.big {
+  font-size: 78px;
+  margin-top: -30px;
+  text-align: center
+}
+
+.roundup {
+  border-top-right-radius: 80px;
+  border-top-left-radius: 80px;
+  height: 100%;
+}
+
+.caz {
+  height: 48px
+}
+
+.trans {
+  height: 184px;
+}
+
+.custom-orange {
+  background-color: #F98D3F;
+}
+.drop {
+  margin-top: 30px
+}
+
+.middle {
+  margin-right: 11rem!important;
+}
+
+.question-text u {
+  position: relative;
+  content: '';
+  display: inline-block;
+  width: 25%;
+  text-decoration: none;
+  height: 1em;
+  border-bottom: 0.125em solid #256188;
+  margin-bottom: -0.125em;
+ }
+
+ .tour-modal, .tour-modal .introjs-tooltipbuttons{
+   text-align: center;
+ }
+ 
+ .introjs-helperNumberLayer {
+  background: #F98D3F;
+ }
+
+ .introjs-skipbutton:hover {
+  color: red;
+ }

@@ -1,6 +1,24 @@
-<div id = "inner-timer-container">
+<!-- <div id = "inner-timer-container">
   <span id="timer-status-round" ng-hide="game.state === 'winner has been chosen' || game.state === 'waiting for czar to decide'"> Time Remaining</span>
   <span id="timer-status-czar-choosing" ng-show="game.state === 'winner has been chosen'"> Next Round In</span>
   <span id="timer-status-czar-choosing" ng-show="game.state === 'waiting for czar to decide'"> Czar Choosing</span>
   <div id="time" ng-bind="game.time"></div>
+</div> -->
+
+
+<div class="card roundup trans text-center">
+  <div class="mt-3" style="margin: 0 auto">
+    <img class="img-fluid shrink" src="./img/stopwatch (3).png" alt="">
+  </div>
+  <hr>
+  <p class="big red-text" ng-bind="game.time"></p>
+  <span style="margin-top: -37px" id="timer-status-round" ng-hide="game.state === 'winner has been chosen' || game.state === 'waiting for czar to decide'"> Time Remaining</span>
+  <span style="margin-top: -37px" id="timer-status-czar-choosing" ng-show="game.state === 'winner has been chosen'"> Next Round In</span>
+  <span style="margin-top: -37px" id="timer-status-czar-choosing" ng-show="game.state === 'waiting for czar to decide'"> Czar Choosing</span>
+  <div class="space"></div>
+  <div class="card caz">
+  <!-- <P class="text-center" style="margin-top: -31px">Time Remaining</P> -->
+      <player></player>
+
+
 </div>

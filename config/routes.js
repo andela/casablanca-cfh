@@ -1,13 +1,13 @@
+
 // import async from 'async';
 import expressJoi from 'express-joi-validator';
 import users from '../app/controllers/users';
 import signupSchema from '../app/validators/signupSchema.js';
 import loginSchema from '../app/validators/loginSchema';
-import answers from '../app/controllers/answers';
-import questions from '../app/controllers/questions';
+import * as answers from '../app/controllers/answers';
+import * as questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
 import index from '../app/controllers/index';
-
 
 module.exports = (app, passport) => {
   // User Routes
@@ -101,9 +101,10 @@ module.exports = (app, passport) => {
   app.get('/', index.render);
 
   // error handler
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     if (err.isBoom) {
       return res.status(err.output.statusCode).json(err.output.payload);
     }
   });
 };
+
