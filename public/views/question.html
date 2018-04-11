@@ -24,7 +24,8 @@
 
         <!-- Start game button -->
         <div class="btn btn-primary btn-sm ml-2 z-depth-3" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" ng-show="game.state === 'awaiting players'"
-          style="border-radius:20px; margin-top: 7px; background-color:#F98D3F !important">
+          style="border-radius:20px; margin-top: 7px; background-color:#F98D3F !important"
+          data-intro={{gameTour.startButton}} data-step="1">
           Wanna Start Game?
         </div>
 
