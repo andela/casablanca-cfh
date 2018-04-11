@@ -1,21 +1,20 @@
-<div id="player-container" ng-repeat="player in game.players" style="background-color:{{colors[player.color]}}">
-  <div id ="above-czar-container">
-    <div id="avatar_">
+<div class="card caz mb-2 z-depth-3" ng-repeat="player in game.players">
+  <div>
+    <p class="">{{player.username | upperFirstLetter}}</p>
+    <p style="margin-top: -20px;">
+      <span class="badge red" ng-show="$index === game.playerIndex"> Player </span>
+      <span class="badge cyan" ng-show="$index === game.playerIndex">{{$index + 1}}</span>   
       <span ng-show="isPremium($index)">
-        <img ng-src="img/king.png" id="king">
-      </span>
-      <img ng-src="{{player.avatar}}"/>
-    </div>
-    <div id="player-container-inner">
-      <div id="player-name"><h4>{{player.username | upperFirstLetter}}</h4></div>
-      <div id="player-score"><h2>{{player.points}}/{{game.pointLimit}}</h2></div>
-      <div ng-show="isPlayer($index)" id="player-star">
-        <img src="../img/11.png"/>
-      </div>
-    </div>
-  </div>
-  <div id="czar-container" ng-show="currentCzar($index)">
-    <span id='the-czar'>CZAR</span>
-  </div>
-</div>
+        <img class="ml-3 img-fluid avatar" ng-src="./img/avt1.png" alt="">
 
+        <!-- <img ng-src="img/king.png" id="king"> -->
+      </span>
+      <img class="ml-3 img-fluid avatar" ng-src="{{player.avatar}}" alt="">
+    </p>
+    <p class="text-right mr-3" style="margin-top: -62px;">{{player.points}}/{{game.pointLimit}}</p>
+    <div style="margin-top: -18px" class="text-right mr-3" id="czar-container" ng-show="currentCzar($index)">
+        <span style="color: #256188;" id='the-czar'>CZAR</span>
+      </div>
+  </div>
+
+</div>
