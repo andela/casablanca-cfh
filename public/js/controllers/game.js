@@ -2,11 +2,13 @@ angular
   .module('mean.system')
   .controller('GameController', [
     '$scope',
+    '$http',
+    '$window',
     'game',
     '$timeout',
     '$location',
     'MakeAWishFactsService',
-    ($scope, game, $timeout, $location, MakeAWishFactsService) => {
+    ($scope, $http, $window, game, $timeout, $location, MakeAWishFactsService) => {
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
       $scope.showTable = false;
@@ -131,8 +133,21 @@ angular
 
       $scope.winnerPicked = () => game.winningCard !== -1;
 
+      // trigger modal
+      $scope.triggerModal = () => {
+        if (game.players.length < game.playerMinLimit) {
+          $('#awaitPlayersModal').modal({ backdrop: 'static', show: true, });
+        } else {
+          // Todo: use greater than and equal to swap the modals
+          $('#startGameModal').modal({ backdrop: 'static', show: true, });
+        }
+      };
+
+      // Start game
       $scope.startGame = () => {
         game.startGame();
+        // Hide the modal once game starts
+        $('#startGameModal').modal('hide');
       };
 
       $scope.abandonGame = () => {
@@ -153,10 +168,34 @@ angular
         $scope.pickedCards = [];
       });
 
+      // save game log
+      $scope.saveGameLog = (gameInfo) => {
+        const gamePlayers = gameInfo.players.map(player => [player.username, player.points]);
+        const gameHistory = {
+          winner: gameInfo.players[gameInfo.gameWinner].username,
+          round: gameInfo.round,
+          czar: gameInfo.players[gameInfo.czar].username,
+          gamePlayers,
+          gameID: gameInfo.id
+        };
+        const config = {
+          headers: {
+            'x-access-token': $window.localStorage.getItem('token')
+          },
+        };
+        $http.post(`/api/games/${gameInfo.gameID}/start`, gameHistory, config)
+          .then(res => res.data)
+          .catch(err => err);
+      };
+
       // In case player doesn't pick a card in time, show the table
       $scope.$watch('game.state', () => {
         if (game.state === 'waiting for czar to decide' && $scope.showTable === false) {
           $scope.showTable = true;
+        }
+        // check if game ended and call the save log method
+        if (game.state === 'game ended') {
+          $scope.saveGameLog(game);
         }
       });
 
