@@ -13,9 +13,8 @@ angular.module('mean.system')
     $scope.showError = () => {
       if ($location.search().error) {
         return $location.search().error;
-      } else {
-        return false;
       }
+      return false;
     };
 
     $scope.avatars = [];
