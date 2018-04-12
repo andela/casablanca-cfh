@@ -1,10 +1,6 @@
 /**
  * Module dependencies.
  */
-// let mongoose = require('mongoose'),
-//   async = require('async'),
-//   Question = mongoose.model('Question'),
-//   _ = require('underscore');
 import mongoose from 'mongoose';
 
 const Question = mongoose.model('Question');

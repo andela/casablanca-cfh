@@ -33,68 +33,71 @@
 </div> -->
 
 
-<header class="header" ng-controller="GameController">
-  <!--Navbar-->
-  <nav class="navbar navbar-expand-lg z-depth-1-half navbar-dark" style="background-color: #fff">
-    <div class="container">
-      <!-- Navbar brand -->
-      <a class="navbar-brand black-text" href="#">
-        <i style="color: #F98D3F" class="fa fa-circle"></i>
-        <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</a>
+  <header class="header" ng-controller="GameController">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg z-depth-1-half navbar-dark" style="background-color: #fff">
+      <div class="container">
+        <!-- Navbar brand -->
+        <a class="navbar-brand black-text" href="#">
+          <i style="color: #F98D3F" class="fa fa-circle"></i>
+          <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</a>
 
-      <!-- Collapse button -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon red-text"></span>
-      </button>
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon red-text"></span>
+        </button>
 
-      <!-- Collapsible content -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-          <!-- <li class="nav-item"> -->
-          <!-- <a class="nav-link waves-effect waves-light ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px;" href="signup.html"><i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i>Tweet</a> -->
-          <button type="button" class="btn btn-white round btn-white z-depth-3 ttp waves-effect waves-light">
-            <i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i>
-          </button>
-          <!-- </li> -->
-
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto nav-flex-icons">
+            <!-- <li class="nav-item"> -->
+            <!-- <a class="nav-link waves-effect waves-light ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px;" href="signup.html"><i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i>Tweet</a> -->
+            <button type="button" class="btn btn-white round btn-white z-depth-3 ttp waves-effect waves-light">
+              <i style="color: #256188 !important;" class="fa fa-twitter blue-text"></i>
+            </button>
+            <!-- </li> -->
           <li class="nav-item">
             <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px;"
-              href="signup.html">Take a Tour</a>
+              onClick="startTour()">Take a Tour</a>
           </li>
           <li class="nav-item">
             <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #256188; border-radius: 20px;"
-              href="signin.html">Abandon Game</a>
+              ng-click="abandonGame()">Abandon Game</a>
           </li>
         </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- mask -->
-  <div id="intro" class="view">
-    <!-- <div id="intro" class="view mask pattern-1"> -->
-    <div class="view mask rgba-black-strong"></div>
+    <!-- mask -->
+    <div id="intro" class="view">
+      <!-- <div id="intro" class="view mask pattern-1"> -->
+      <div class="view mask rgba-black-strong"></div>
 
-    <div class="container space">
-      <div class="row">
-        <div class="col-xl-12">
+<div class="container space">
           <div class="row">
-            <div class="col-xl-3">
-              <timer></timer>
-            </div>
-            <div class="col-xl-9">  
+            <div class="col-xl-12">
               <div class="row">
-                <div class="col-xl-12">
-                  <question></question>
+                <div class="col-xl-3">
+                  <div data-intro={{gameTour.timerBox}} data-step="2">
+                    <timer></timer>
+                  </div>
                 </div>
-                <div class="col-xl-12">
-                  <answers></answers>
+                <div class="col-xl-9">
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div data-intro={{gameTour.questionBox}} data-step="4">
+                        <question></question>
+                      </div>
+                    </div>
+                    <div class="col-xl-12">
+                      <div data-intro={{gameTour.answerBox}} data-step="5">
+                        <answers></answers>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-      </div>
-    </div>
