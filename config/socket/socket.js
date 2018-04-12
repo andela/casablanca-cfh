@@ -65,6 +65,10 @@ module.exports = function(io) {
       }
     });
 
+    socket.on('startRound', () => {
+      allGames[socket.gameID].startRound(allGames[socket.gameID]);
+    })
+
     socket.on('leaveGame', function() {
       exitGame(socket);
     });

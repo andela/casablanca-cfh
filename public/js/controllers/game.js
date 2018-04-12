@@ -235,6 +235,10 @@ angular
         return result;
       };
 
+      $scope.startRound = () => {
+        game.startRound();
+      }
+
       if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
         game.joinGame('joinGame', $location.search().game);
       } else if ($location.search().custom) {

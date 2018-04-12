@@ -45,7 +45,7 @@ class Game {
     this.answers = null;
     this.curQuestion = null;
     this.timeLimits = {
-      stateChoosing: 21,
+      stateChoosing: 21, 
       stateJudging: 16,
       stateResults: 6
     };
@@ -169,7 +169,24 @@ class Game {
   startGame() {
     this.shuffleCards(this.questions);
     this.shuffleCards(this.answers);
-    this.stateChoosing(this);
+    // this.stateChoosing(this);
+    this.chooseCzar(this);
+    this.sendUpdate();
+  }
+
+  startRound(self) {
+    this.stateChoosing(self);
+  }
+
+  chooseCzar(self) {
+    self.table = [];
+    self.state = 'czar should pick a card';
+    if (self.czar >= self.players.length - 1) {
+      self.czar = 0;
+    } else {
+      self.czar += 1;
+    }
+    self.sendUpdate();
   }
   /**
  * @returns {object} sendupdate object
@@ -200,11 +217,11 @@ class Game {
     self.round += 1;
     self.dealAnswers();
     // Rotate card czar
-    if (self.czar >= self.players.length - 1) {
-      self.czar = 0;
-    } else {
-      self.czar += 1;
-    }
+    // if (self.czar >= self.players.length - 1) {
+    //   self.czar = 0;
+    // } else {
+    //   self.czar += 1;
+    // }
     self.sendUpdate();
 
     self.choosingTimeout = setTimeout(() => {
@@ -224,7 +241,7 @@ class Game {
       this.winnerAutopicked = true;
       this.stateResults(this);
     } else {
-      this.stateChoosing(this);
+      this.chooseCzar(this);
     }
   }
   /**
@@ -264,7 +281,8 @@ class Game {
       if (winner !== -1) {
         self.stateEndGame(winner);
       } else {
-        self.stateChoosing(self);
+        // self.stateChoosing(self);
+        self.chooseCzar(self);
       }
     }, self.timeLimits.stateResults * 1000);
   }

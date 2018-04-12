@@ -21,8 +21,8 @@ const questionsList = [
     id: 3,
   },
   {
-    text: '_ + _ = _',
-    numAnswers: 3,
+    text: 'Whats the new slangger _',
+    numAnswers: 1,
     official: true,
     expansion: '',
     id: 4

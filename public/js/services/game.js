@@ -139,7 +139,16 @@ angular.module('mean.system')
         game.state = data.state;
       }
 
-      if (data.state === 'waiting for players to pick') {
+      if (data.state === 'czar should pick a card') {
+        game.czar = data.czar;
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('You\'re the Card Czar! Please select a card!');
+        } else if (game.curQuestion.numAnswers === 1) {
+          addToNotificationQueue('Select an answer!');
+        } else {
+          addToNotificationQueue('Select TWO answers!');
+        }
+      } else if (data.state === 'waiting for players to pick') {
         game.czar = data.czar;
         game.curQuestion = data.curQuestion;
         // Extending the underscore within the question
@@ -164,6 +173,9 @@ angular.module('mean.system')
       } else if (data.state === 'winner has been chosen' &&
               game.curQuestion.text.indexOf('<u></u>') > -1) {
         game.curQuestion = data.curQuestion;
+        $('#' + game.players[game.winningCardPlayer].socketID).addClass('animated shake');
+        $('#my-timer').addClass('animate shake');
+        console.log('===>', game.players[game.winningCardPlayer].socketID);
       } else if (data.state === 'awaiting players') {
         joinOverrideTimeout = $timeout(() => {
           game.joinOverride = true;
@@ -190,6 +202,10 @@ angular.module('mean.system')
     game.startGame = () => {
       socket.emit('startGame');
     };
+
+    game.startRound = () => {
+      socket.emit('startRound')
+    }
 
     // no longer emitting anyhing  save game log to the database
     socket.on('gameLog', (data) => {

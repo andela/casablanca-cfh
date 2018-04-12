@@ -1,6 +1,6 @@
 <div data-intro={{gameTour.playerBox}} data-step="3">
     <div class="card caz mb-2 z-depth-3" ng-repeat="player in game.players">
-        <div>
+        <div id={{player.socketID}}>
           <p class="">{{player.username | upperFirstLetter}}</p>
           <p style="margin-top: -20px;">
             <span class="badge red" ng-show="$index === game.playerIndex"> Player </span>

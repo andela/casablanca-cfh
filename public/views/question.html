@@ -1,4 +1,4 @@
-<div class="card mb-5" style="height: 205px">
+<div class="card mb-5">
 
 
 
@@ -19,18 +19,77 @@
         </div>
 
         <!-- Question -->
-        <span ng-bind-html="game.curQuestion.text" class="mt-3 question-text" style="font-size: 20px;" ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players'">
+        <span ng-bind-html="game.curQuestion.text" class="mt-3 question-text" style="font-size: 20px;" 
+        ng-hide="game.state === 'game ended' || game.state ==='game dissolved' || game.state === 'awaiting players' 
+        || game.state === 'czar should pick a card'">
         </span>
+        <!-- ./Question -->
 
         <!-- Start game button -->
-        <div class="btn btn-primary btn-sm ml-2 z-depth-3" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" ng-show="game.state === 'awaiting players'"
-          style="border-radius:20px; margin-top: 7px; background-color:#F98D3F !important"
-          data-intro={{gameTour.startButton}} data-step="1">
+        <div class="btn btn-primary btn-sm ml-2 z-depth-3" id='start-game-button' data-toggle="modal" ng-click="triggerModal()" ng-show="game.state === 'awaiting players' && game.playerIndex === 0"
+          style="border-radius:20px; margin-top: 7px; background-color:#F98D3F !important" data-intro={{gameTour.startButton}}
+          data-step="1">
           Wanna Start Game?
         </div>
 
+        <!-- czar selets card -->
+        <div id="start-game-container" style="padding: 20px;" ng-show="isCzar() && game.state === 'czar should pick a card'">
+          <div class="row">
+            <div class="col-xl-3 col-sm-3">
+              <div class="card pattern-5" style="background-color:#256188 !important; height:164px" ng-click="startRound()">
+                <div class="card-body">
+                  <p class="white-text text-center" style="margin-top: 38px;font-size: 29px; font-family: 'Lobster', cursive">Select Card</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-3">
+              <div class="card pattern-5" style="background-color:#F98D3F !important; height:164px" ng-click="startRound()">
+                <div class="card-body">
+                  <p class="white-text text-center" style="margin-top: 38px;font-size: 29px; font-family: 'Lobster', cursive">Select Card</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-3">
+              <div class="card pattern-5" style="background-color:#256188 !important; height:164px" ng-click="startRound()">
+                <div class="card-body">
+                  <p class="white-text text-center" style="margin-top: 38px;font-size: 29px; font-family: 'Lobster', cursive">Select Card</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-3">
+              <div class="card pattern-5" style="background-color:#F98D3F !important; height:164px" ng-click="startRound()">
+                <div class="card-body">
+                  <p class="white-text text-center" style="margin-top: 38px;font-size: 29px; font-family: 'Lobster', cursive">Select Card</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2></h2>
+        </div>
+        <!-- ./czar selets card -->
+
+        <!-- When game starts and czar has not selected card -->
+        <div>
+          <div ng-show="!isCzar() && game.state === 'czar should pick a card'">
+            <div>
+              <p class="text-center" style="margin-top: 10px; font-size: 35px">The czar is selecting a question</p>
+            </div>
+            <div style="margin-top: -20px">
+              <p class="text-center" class="font-italic">Prepare to provide an answer...</p>
+              <div id="loading-gif" style="margin: -30px auto">
+                  <img style="height: 50px; width: 50px; margin: 0 auto;" src="../img/loaders/spinner.gif" />
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notifications" ng-if="game.notification" style="font-size: 15px; color: #F98D3F" class="text-right">{{game.notification}}</div>
+        <!-- ./Notifications -->
+
       </div>
     </div>
+
 
     <!-- Game Over Stuff -->
     <div id="game-end-info">
@@ -57,7 +116,8 @@
       </div>
       <div ng-show="game.state === 'game ended' && game.gameWinner !== game.playerIndex" class="mt-3 question-text" style="font-size: 20px;">
         <div class="game-end-headline text-center" style="margin-left: 60px">Aw, shucks! {{game.players[game.gameWinner].username | upperFirstLetter }} won the game! That makes you a loser,
-          unfortunately.</div>
+          unfortunately.
+        </div>
       </div>
     </div>
   </div>
