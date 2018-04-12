@@ -1,5 +1,5 @@
 angular.module('mean.system')
-  .factory('game', ['socket', '$timeout', (socket, $timeout) => {
+  .factory('game', ['socket', '$timeout', '$window', (socket, $timeout, $window) => {
     const game = {
       id: null, // This player's socket ID, so we know who this player is
       gameID: null,
@@ -11,7 +11,7 @@ angular.module('mean.system')
       table: [],
       czar: null,
       playerMinLimit: 3,
-      playerMaxLimit: 6,
+      playerMaxLimit: 12,
       pointLimit: null,
       state: null,
       round: 0,
@@ -19,12 +19,13 @@ angular.module('mean.system')
       curQuestion: null,
       notification: null,
       timeLimits: {},
-      joinOverride: false
+      joinOverride: false,
+      regionId: null
     };
 
     const notificationQueue = [];
     let timeout = false;
-    const self = this; /* eslint-disable-line */
+    // const self = this;
     let joinOverrideTimeout = 0; /* eslint-disable-line */
 
     const setNotification = () => {
@@ -188,12 +189,19 @@ angular.module('mean.system')
       addToNotificationQueue(data.notification);
     });
 
-    game.joinGame = (mode, room, createPrivate) => {
+    game.joinGame = (regionId, mode, room, createPrivate) => {
+      const token = $window.localStorage.getItem('token');
+      game.regionId = regionId;
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
-      const userID = window.user ? user._id : 'unauthenticated'; /* eslint-disable-line */
-      socket.emit(mode, { userID, room, createPrivate });
+      const userID = token || 'unauthenticated';
+      socket.emit(mode, {
+        userID,
+        room,
+        createPrivate,
+        regionId
+      });
     };
 
     game.startGame = () => {
@@ -205,8 +213,9 @@ angular.module('mean.system')
     };
 
     // no longer emitting anyhing  save game log to the database
-    socket.on('gameLog', (data) => { /* eslint-disable-line */
-      if (game.state === 'game ended') { /* eslint-disable-line */
+    socket.on('gameLog', (data) => {/* eslint-disable-line */
+      if (game.state === 'game ended') {
+        // Do nothing
       }
     });
     game.leaveGame = () => {

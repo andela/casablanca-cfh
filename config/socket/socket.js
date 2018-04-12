@@ -1,119 +1,119 @@
-const Game = require('./game');
-const Player = require('./player');
+/* eslint-disable */
+
+import jwt from 'jsonwebtoken';
+import winston from 'winston';
+import path from 'path';
+import mongoose from 'mongoose';
+import Game from './game';
+import Player from './player';
+
 require('console-stamp')(console, 'm/dd HH:MM:ss');
-const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
-
-const avatars = require(`${__dirname}/../../app/controllers/avatars.js`).all(); /* eslint-disable-line */
+const avatars = require(path.join(__dirname, '../../app/controllers/avatars.js')).all(); /* eslint-disable-line */
 // Valid characters to use to generate random private game IDs
 const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
 
+const transport = new winston.transports.Console({
+  level: 'debug',
+  handleExceptions: true,
+  json: false,
+  colorize: true,
+});
+const logger = winston.createLogger({
+  transports: [transport]
+});
+
 module.exports = (io) => {
-  let game; /* eslint-disable-line */
+  let game;
   const allGames = {};
   const allPlayers = {};
   const gamesNeedingPlayers = [];
   let gameID = 0;
 
-  io.sockets.on('connection', (socket) => {
-    socket.emit('id', { id: socket.id });
-
-    socket.on('pickCards', (data) => {
-      if (allGames[socket.gameID]) {
-        allGames[socket.gameID].pickCards(data.cards, socket.id);
+  const fireGame = (player, socket, regionId) => {
+    let currentGame;
+    let gameIndex;
+    gamesNeedingPlayers.map((gameItem, index) => { /* eslint-disable-line */
+      if (gameItem.regionId === regionId) {
+        logger.info('>>>>>> game.region', gameItem.regionId);
+        currentGame = gameItem;
+        gameIndex = index;
       }
     });
-
-    socket.on('pickWinning', (data) => {
-      if (allGames[socket.gameID]) {
-        allGames[socket.gameID].pickWinning(data.card, socket.id);
-      }
-    });
-
-    socket.on('joinGame', (data) => {
-      if (!allPlayers[socket.id]) {
-        joinGame(socket, data); /* eslint-disable-line */
-      }
-    });
-
-    socket.on('joinNewGame', (data) => {
-      exitGame(socket); /* eslint-disable-line */
-      joinGame(socket, data); /* eslint-disable-line */
-    });
-
-    socket.on('startGame', () => {
-      if (allGames[socket.gameID]) {
-        const thisGame = allGames[socket.gameID];
-        if (thisGame.players.length >= thisGame.playerMinLimit) {
-          // Remove this game from gamesNeedingPlayers so new players can't join it.
-          gamesNeedingPlayers.forEach((game, index) => { /* eslint-disable-line */
-            if (game.gameID === socket.gameID) {
-              return gamesNeedingPlayers.splice(index, 1);
-            }
-          });
-          thisGame.prepareGame();
-          thisGame.sendNotification('The game has begun!');
-        }
-      }
-    });
-
-    socket.on('startRound', () => {
-      allGames[socket.gameID].startRound(allGames[socket.gameID]);
-    });
-
-    socket.on('leaveGame', () => {
-      exitGame(socket); /* eslint-disable-line */
-    });
-
-    socket.on('disconnect', () => {
-      exitGame(socket); /* eslint-disable-line */
-    });
-  });
-
-  let joinGame = (socket, data) => {
-    const player = new Player(socket);
-    data = data || {};
-    player.userID = data.userID || 'unauthenticated';
-    if (data.userID !== 'unauthenticated') {
-      User.findOne({
-        _id: data.userID
-      }).exec((err, user) => {
-        if (err) {
-          return err; // Hopefully this never happens.
-        }
-        if (!user) {
-          // If the user's ID isn't found (rare)
-          player.username = 'Guest';
-          player.avatar = avatars[Math.floor(Math.random() * 4) + 12];
-        } else {
-          player.username = user.name;
-          player.premium = user.premium || 0;
-          player.avatar = user.avatar || avatars[Math.floor(Math.random() * 4) + 12];
-        }
-        getGame(player, socket, data.room, data.createPrivate); /* eslint-disable-line */
-      });
+    if (!currentGame) {
+      gameID += 1;
+      const gameIDStr = gameID.toString();
+      game = new Game(gameIDStr, io, regionId);
+      allPlayers[socket.id] = true;
+      game.players.push(player);
+      allGames[gameID] = game;
+      gamesNeedingPlayers.push(game);
+      socket.join(game.gameID);
+      socket.gameID = game.gameID;
+      logger.info(socket.id, 'has joined newly created game', game.gameID);
+      game.assignPlayerColors();
+      game.assignGuestNames();
+      game.sendUpdate();
     } else {
-      // If the user isn't authenticated (guest)
-      player.username = 'Guest';
-      player.avatar = avatars[Math.floor(Math.random() * 4) + 12];
-      getGame(player, socket, data.room, data.createPrivate); /* eslint-disable-line */
+      logger.info('>>>>>>>>', 'current');
+      allPlayers[socket.id] = true;
+      currentGame.players.push(player);
+      logger.info(socket.id, 'has joined game', currentGame.gameID);
+      socket.join(currentGame.gameID);
+      socket.gameID = currentGame.gameID;
+      currentGame.assignPlayerColors();
+      currentGame.assignGuestNames();
+      currentGame.sendUpdate();
+      currentGame.sendNotification(`${player.username} has joined the game!`);
+      if (currentGame.players.length >= currentGame.playerMaxLimit) {
+        gamesNeedingPlayers.splice(gameIndex, 1);
+        currentGame.prepareGame();
+      }
     }
   };
 
-  let getGame = (player, socket, requestedGameId, createPrivate) => {
+  const createGameWithFriends = (player, socket) => {
+    let isUniqueRoom = false;
+    let uniqueRoom = '';
+    // Generate a random 6-character game ID
+    while (!isUniqueRoom) {
+      uniqueRoom = '';
+      for (let i = 0; i < 6; i += 1) {
+        uniqueRoom += chars[Math.floor(Math.random() * chars.length)];
+      }
+      if (!allGames[uniqueRoom] && !(/^\d+$/).test(uniqueRoom)) {
+        isUniqueRoom = true;
+      }
+    }
+    logger.info(socket.id, 'has created unique game', uniqueRoom);
+    game = new Game(uniqueRoom, io);
+    allPlayers[socket.id] = true;
+    game.players.push(player);
+    allGames[uniqueRoom] = game;
+    socket.join(game.gameID);
+    socket.gameID = game.gameID;
+    game.assignPlayerColors();
+    game.assignGuestNames();
+    game.sendUpdate();
+  };
+
+  const getGame = (player, socket, requestedGameId, createPrivate, regionId) => {
     requestedGameId = requestedGameId || '';
     createPrivate = createPrivate || false;
+    logger.info(socket.id, 'is requesting room', requestedGameId);
     if (requestedGameId.length && allGames[requestedGameId]) {
-      const game = allGames[requestedGameId]; /* eslint-disable-line */
+      logger.info('Room', requestedGameId, 'is valid');
+      game = allGames[requestedGameId];
       // Ensure that the same socket doesn't try to join the same game
       // This can happen because we rewrite the browser's URL to reflect
       // the new game ID, causing the view to reload.
       // Also checking the number of players, so node doesn't crash when
       // no one is in this custom room.
       if (game.state === 'awaiting players' && (!game.players.length ||
-        game.players[0].socket.id !== socket.id)) {
+        game.players[0].socket.id !== socket.id) && game.regionId === regionId) {
         // Put player into the requested game
+        logger.info('Allowing player to join', requestedGameId);
         allPlayers[socket.id] = true;
         game.players.push(player);
         socket.join(game.gameID);
@@ -131,73 +131,54 @@ module.exports = (io) => {
       }
     } else {
       // Put players into the general queue
-      if (createPrivate) { /* eslint-disable-line */
-        createGameWithFriends(player, socket); /* eslint-disable-line */
+      logger.info('Redirecting player', socket.id, 'to general queue');
+      if (createPrivate) {
+        createGameWithFriends(player, socket, regionId);
       } else {
-        fireGame(player, socket); /* eslint-disable-line */
+        fireGame(player, socket, regionId);
       }
     }
   };
 
-  let fireGame = (player, socket) => {
-    let game; /* eslint-disable-line */
-    if (gamesNeedingPlayers.length <= 0) {
-      gameID += 1;
-      const gameIDStr = gameID.toString();
-      game = new Game(gameIDStr, io);
-      allPlayers[socket.id] = true;
-      game.players.push(player);
-      allGames[gameID] = game;
-      gamesNeedingPlayers.push(game);
-      socket.join(game.gameID);
-      socket.gameID = game.gameID;
-      game.assignPlayerColors();
-      game.assignGuestNames();
-      game.sendUpdate();
+  const joinGame = (socket, data) => {
+    const player = new Player(socket);
+    data = data || {};
+    player.userID = data.userID || 'unauthenticated';
+
+    if (data.userID !== 'unauthenticated') {
+      const token = jwt.verify(data.userID, process.env.secret);
+      logger.info(token);
+      User.findOne({
+        email: token.email
+      }).exec((err, user) => {
+        if (err) {
+          logger.info('err', err);
+          return err; // Hopefully this never happens.
+        }
+        if (!user) {
+          // If the user's ID isn't found (rare)
+          player.username = 'Guest';
+          player.avatar = avatars[Math.floor(Math.random() * 4) + 12];
+        } else {
+          player.username = user.name;
+          player.premium = user.premium || 0;
+          player.avatar = user.avatar || avatars[Math.floor(Math.random() * 4) + 12];
+        }
+        getGame(player, socket, data.room, data.createPrivate, data.regionId);
+      });
     } else {
-      game = gamesNeedingPlayers[0]; /* eslint-disable-line */
-      allPlayers[socket.id] = true;
-      game.players.push(player);
-      socket.join(game.gameID);
-      socket.gameID = game.gameID;
-      game.assignPlayerColors();
-      game.assignGuestNames();
-      game.sendUpdate();
-      game.sendNotification(`${player.username} has joined the game!`);
-      if (game.players.length >= game.playerMaxLimit) {
-        gamesNeedingPlayers.shift();
-        game.prepareGame();
-      }
+      // If the user isn't authenticated (guest)
+      player.username = 'Guest';
+      player.avatar = avatars[Math.floor(Math.random() * 4) + 12];
+      getGame(player, socket, data.room, data.createPrivate, data.regionId);
     }
   };
 
-  let createGameWithFriends = (player, socket) => {
-    let isUniqueRoom = false;
-    let uniqueRoom = '';
-    // Generate a random 6-character game ID
-    while (!isUniqueRoom) {
-      uniqueRoom = '';
-      for (let i = 0; i < 6; i += 1) {
-        uniqueRoom += chars[Math.floor(Math.random() * chars.length)];
-      }
-      if (!allGames[uniqueRoom] && !(/^\d+$/).test(uniqueRoom)) {
-        isUniqueRoom = true;
-      }
-    }
-    const game = new Game(uniqueRoom, io); /* eslint-disable-line */
-    allPlayers[socket.id] = true;
-    game.players.push(player);
-    allGames[uniqueRoom] = game;
-    socket.join(game.gameID);
-    socket.gameID = game.gameID;
-    game.assignPlayerColors();
-    game.assignGuestNames();
-    game.sendUpdate();
-  };
-
-  let exitGame = (socket) => {
+  const exitGame = (socket) => {
+    logger.info(socket.id, 'has disconnected');
     if (allGames[socket.gameID]) { // Make sure game exists
-      const game = allGames[socket.gameID]; /* eslint-disable-line */
+      game = allGames[socket.gameID];
+      logger.info(socket.id, 'has left game', game.gameID);
       delete allPlayers[socket.id];
       if (game.state === 'awaiting players' ||
         game.players.length - 1 >= game.playerMinLimit) {
@@ -213,4 +194,64 @@ module.exports = (io) => {
     }
     socket.leave(socket.gameID);
   };
+
+
+  io.sockets.on('connection', (socket) => {
+    logger.info(`${socket.id} Connected`);
+    socket.emit('id', { id: socket.id });
+
+    socket.on('pickCards', (data) => {
+      logger.info(socket.id, 'picked', data);
+      if (allGames[socket.gameID]) {
+        allGames[socket.gameID].pickCards(data.cards, socket.id);
+      } else {
+        logger.info('Received pickCard from', socket.id, 'but game does not appear to exist!');
+      }
+    });
+
+    socket.on('pickWinning', (data) => {
+      if (allGames[socket.gameID]) {
+        allGames[socket.gameID].pickWinning(data.card, socket.id);
+      } else {
+        logger.info('Received pickWinning from', socket.id, 'but game does not appear to exist!');
+      }
+    });
+
+    socket.on('joinGame', (data) => {
+      if (!allPlayers[socket.id]) {
+        joinGame(socket, data);
+      }
+    });
+
+    socket.on('joinNewGame', (data) => {
+      exitGame(socket);
+      joinGame(socket, data);
+    });
+
+    socket.on('startGame', () => {
+      if (allGames[socket.gameID]) {
+        const thisGame = allGames[socket.gameID];
+        logger.info('comparing', thisGame.players[0].socket.id, 'with', socket.id);
+        if (thisGame.players.length >= thisGame.playerMinLimit) {
+          // Remove this game from gamesNeedingPlayers so new players can't join it.
+          gamesNeedingPlayers.forEach((gameItem, index) => {
+            if (gameItem.gameID === socket.gameID) {
+              return gamesNeedingPlayers.splice(index, 1);
+            }
+          });
+          thisGame.prepareGame();
+          thisGame.sendNotification('The game has begun!');
+        }
+      }
+    });
+
+    socket.on('leaveGame', () => {
+      exitGame(socket);
+    });
+
+    socket.on('disconnect', () => {
+      logger.info('Rooms on Disconnect ', io.sockets.manager.rooms);
+      exitGame(socket);
+    });
+  });
 };

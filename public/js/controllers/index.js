@@ -5,9 +5,19 @@ angular.module('mean.system')
     $scope.email = '';
     $scope.username = '';
     $scope.password = '';
+    $scope.custom = false;
+
+    $scope.setCustom = () => {
+      $scope.custom = true;
+    };
+
     $scope.playAsGuest = () => {
-      game.joinGame();
-      $location.path('/app');
+      game.joinGame($scope.regionId);
+      $location.path('/app').search({ regionId: $scope.gameRegion });
+    };
+
+    $scope.playGame = () => {
+      $window.location = `/play?regionId=${$scope.gameRegion}`;
     };
 
     $scope.showError = () => {
@@ -52,4 +62,12 @@ angular.module('mean.system')
         $scope.signinFormSubmitted = false;
       }
     };
+
+    $scope.signout = () => {
+      $window.localStorage.removeItem('token');
+      $window.location.reload();
+    };
+
+    $scope.loggedIn = !!$window.localStorage.getItem('token');
+    $scope.userButton = $scope.loggedIn ? 'Play With Strangers' : 'Play As Guest';
   }]);

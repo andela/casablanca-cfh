@@ -27,13 +27,17 @@ exports.question = (req, res, next, id) => {
  * Show a question
  * @param {object} req
  * @param {object} res
+ * @returns {object} - An instace of Question
  */
 exports.show = (req, res) => {
   res.jsonp(req.question);
 };
 
 /**
- * List of Questions
+ *
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} List of Questions
  */
 exports.all = (req, res) => {
   Question.find({
@@ -51,14 +55,20 @@ exports.all = (req, res) => {
 };
 
 /**
- * List of Questions (for Game class)
+ *
+ * @param {object} cb
+ * @param {object} regionId
+ * @returns {object} List of Question For Game
  */
-exports.allQuestionsForGame = (cb) => {
-  Question.find({}, ((err, questions) => {
+exports.allQuestionsForGame = (cb, regionId) => {
+  Question.find({
+    regionId,
+    official: true,
+    numAnswers: { $lt: 3 }
+  }).select('-_id').exec((err, questions) => {
     if (err) {
       throw err;
-    } else {
-      cb(questions);
     }
-  }));
+    cb(questions);
+  });
 };

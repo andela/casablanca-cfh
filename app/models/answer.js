@@ -1,41 +1,42 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-    config = require('../../config/config'),
-    Schema = mongoose.Schema;
+import mongoose, { Schema } from 'mongoose';
 
 /**
  * Answer Schema
  */
-var AnswerSchema = new Schema({
-    id: {
-        type: Number
-    },
-    text: {
-        type: String,
-        default: '',
-        trim: true
-    },
-    official: {
-        type: Boolean
-    },
-    expansion: {
-        type: String,
-        default: '',
-        trim: true
-    }
+const AnswerSchema = new Schema({
+  id: {
+    type: Number
+  },
+  text: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  official: {
+    type: Boolean
+  },
+  expansion: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  regionId: {
+    type: String
+  }
 });
 
 /**
  * Statics
  */
 AnswerSchema.statics = {
-    load: function(id, cb) {
-        this.findOne({
-            id: id
-        }).select('-_id').exec(cb);
-    }
+  load: (id, cb) => {
+    this.findOne({
+      id,
+    }).select('-_id').exec(cb);
+  }
 };
 
 module.exports = mongoose.model('Answer', AnswerSchema);
