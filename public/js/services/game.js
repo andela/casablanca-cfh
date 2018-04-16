@@ -24,8 +24,8 @@ angular.module('mean.system')
 
     const notificationQueue = [];
     let timeout = false;
-    const self = this;
-    let joinOverrideTimeout = 0;
+    const self = this; /* eslint-disable-line */
+    let joinOverrideTimeout = 0; /* eslint-disable-line */
 
     const setNotification = () => {
       if (notificationQueue.length === 0) { // If notificationQueue is empty, stop
@@ -139,7 +139,16 @@ angular.module('mean.system')
         game.state = data.state;
       }
 
-      if (data.state === 'waiting for players to pick') {
+      if (data.state === 'czar should pick a card') {
+        game.czar = data.czar;
+        if (game.czar === game.playerIndex) {
+          addToNotificationQueue('You\'re the Card Czar! Please select a card!');
+        } else if (game.curQuestion.numAnswers === 1) {
+          addToNotificationQueue('Select an answer!');
+        } else {
+          addToNotificationQueue('Select TWO answers!');
+        }
+      } else if (data.state === 'waiting for players to pick') {
         game.czar = data.czar;
         game.curQuestion = data.curQuestion;
         // Extending the underscore within the question
@@ -183,7 +192,7 @@ angular.module('mean.system')
       mode = mode || 'joinGame';
       room = room || '';
       createPrivate = createPrivate || false;
-      const userID = window.user ? user._id : 'unauthenticated';
+      const userID = window.user ? user._id : 'unauthenticated'; /* eslint-disable-line */
       socket.emit(mode, { userID, room, createPrivate });
     };
 
@@ -191,10 +200,14 @@ angular.module('mean.system')
       socket.emit('startGame');
     };
 
+    game.startRound = () => {
+      socket.emit('startRound');
+    };
+
     // no longer emitting anyhing  save game log to the database
-    socket.on('gameLog', (data) => {
-      if (game.state === 'game ended') {
-    }
+    socket.on('gameLog', (data) => { /* eslint-disable-line */
+      if (game.state === 'game ended') { /* eslint-disable-line */
+      }
     });
     game.leaveGame = () => {
       game.players = [];
