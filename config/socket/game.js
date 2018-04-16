@@ -169,7 +169,34 @@ class Game {
   startGame() {
     this.shuffleCards(this.questions);
     this.shuffleCards(this.answers);
-    this.stateChoosing(this);
+    // this.stateChoosing(this);
+    this.chooseCzar(this);
+    this.sendUpdate();
+  }
+  /**
+ *
+ * @returns {object} startRound
+ * @param {object} self
+ * @memberof Game
+ */
+  startRound(self) {
+    this.stateChoosing(self);
+  }
+  /**
+ *
+ * @returns {object} chooseCzar
+ * @param {object} self
+ * @memberof Game
+ */
+  chooseCzar(self) { /* eslint-disable-line */
+    self.table = [];
+    self.state = 'czar should pick a card';
+    if (self.czar >= self.players.length - 1) {
+      self.czar = 0;
+    } else {
+      self.czar += 1;
+    }
+    self.sendUpdate();
   }
   /**
  * @returns {object} sendupdate object
@@ -199,12 +226,6 @@ class Game {
     }
     self.round += 1;
     self.dealAnswers();
-    // Rotate card czar
-    if (self.czar >= self.players.length - 1) {
-      self.czar = 0;
-    } else {
-      self.czar += 1;
-    }
     self.sendUpdate();
 
     self.choosingTimeout = setTimeout(() => {
@@ -224,7 +245,7 @@ class Game {
       this.winnerAutopicked = true;
       this.stateResults(this);
     } else {
-      this.stateChoosing(this);
+      this.chooseCzar(this);
     }
   }
   /**
@@ -264,7 +285,7 @@ class Game {
       if (winner !== -1) {
         self.stateEndGame(winner);
       } else {
-        self.stateChoosing(self);
+        self.chooseCzar(self);
       }
     }, self.timeLimits.stateResults * 1000);
   }

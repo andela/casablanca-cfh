@@ -7,9 +7,7 @@
             <span class="badge cyan" ng-show="$index === game.playerIndex">{{$index + 1}}</span>   
             <span ng-show="isPremium($index)">
               <img class="ml-3 img-fluid avatar" ng-src="./img/avt1.png" alt="">
-      
-              <!-- <img ng-src="img/king.png" id="king"> -->
-            </span>
+                  </span>
             <img class="ml-3 img-fluid avatar" ng-src="{{player.avatar}}" alt="">
           </p>
           <p class="text-right mr-3" style="margin-top: -62px;">{{player.points}}/{{game.pointLimit}}</p>
