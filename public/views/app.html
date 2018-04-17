@@ -49,18 +49,23 @@
 
                 <!-- Button trigger modal -->
                 <div>
-                <button style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
-                  <i class="fa fa-comments fa-4x white-text"></i>
-                  <span class="badge badge-pill" style="background: #F98D3F;">1</span>
-                </button>
-              </div>
+                  <button style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn" data-toggle="modal"
+                    data-target="#chatModal" ng-click="resetChatLength()">
+                    <i class="fa fa-comments fa-4x white-text"></i>
+                    <span class="badge badge-pill" style="background: #F98D3F;" ng-show="newChatLength">{{newChatLength}}</span>
+                  </button>
+                </div>
+
                 <!-- Modal -->
-                <div class="modal fade left" id="exampleModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                <div class="modal fade left" id="chatModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
                   <div class="modal-dialog modal-side modal-bottom-left" style="width: 348px; margin-left: 19px" role="document">
                     <div class="modal-content">
-                      <div class="modal-header" style="background: #256188; margin-top: -11px; margin-bottom: -34px; ">
-                        <h3 style="    margin-left: 106px;" class="panel-title white-text text-center"><i class="fa fa-comments white-text"></i><strong> Chat</strong></h3>
+                      <div class="modal-header" style="background: #256188; margin-top: -11px; margin-bottom: -20px; ">
+                        <h3 style="    margin-left: 106px;" class="panel-title white-text text-center">
+                          <i class="fa fa-comments white-text"></i>
+                          <strong> Chat</strong>
+                        </h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span style="color: white" aria-hidden="true">&times;</span>
                         </button>
@@ -68,56 +73,21 @@
                       <div class="modal-body">
                         <div class="panel panel-default">
                           <div class="panel-body msg_container_base">
-                            <div class="row msg_container base_sent">
-                              <div class="col-md-10 col-xs-10">
-                                <div class="messages msg_sent" style="background: #F98D3F;">
-                                    <span class="white-text" style="font-size: 18px"><strong>Silent Samuel</strong></span>
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store
-                                  </p>
-                                </div>
-                              </div>
                             
-                            </div>
-                            <div class="row msg_container base_receive">
-                            
-                              <div class="col-md-10 col-xs-10">
-                                <div class="messages msg_receive" style="background: #256188">
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row msg_container base_receive">
-                         
-                              <div class="col-xs-10 col-md-10">
-                                <div class="messages msg_receive" style="background: #F98D3F;">
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row msg_container base_sent">
-                              <div class="col-xs-10 col-md-10">
-                                <div class="messages msg_sent" style="background: #256188">
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store</p>
-                                </div>
-                              </div>
-                             
-                            </div>
-                            <div class="row msg_container base_receive">
-                            
-                              <div class="col-xs-10 col-md-10">
-                                <div class="messages msg_receive" style="background: #F98D3F;">
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row msg_container base_sent">
+                            <!-- Single chat box -->
+                            <div class="row msg_container base_sent" ng-repeat="chat in chat">
                               <div class="col-md-10 col-xs-10 ">
                                 <div class="messages msg_sent" style="background: #256188">
-                                  <p class="white-text">that mongodb thing looks good, huh? tiny master db, and huge document store</p>
+                                  <span class="mt-2 mr-1" style="height: 10px; width: 10px; background-color: #F98D3F; border-radius: 50%; float: left;">&nbsp;</span>
+                                  <span class="white-text" style="font-size: 18px">
+                                    {{chat.userName}}
+                                  </span>
+                                  <p class="white-text">{{chat.message}}</p>
                                 </div>
                               </div>
-                              
                             </div>
+                            <!-- ./Single chat box -->
+
                           </div>
                           <div class="panel-footer">
                             <!-- Material auto-sizing form -->
@@ -129,8 +99,7 @@
                                 <div class="col-auto">
                                   <!-- Material input -->
                                   <div class="md-form">
-                                    <input type="text" style="width: 200px;"
-                                 class="form-control mb-2" id="inlineFormInputMD" placeholder="Type a message">
+                                    <input type="text" style="width: 200px;" class="form-control mb-2" id="inlineFormInputMD" autocomplete="off" placeholder="Type a message" ng-model="chatMessage">
                                     <label class="sr-only" for="inlineFormInputMD">Name</label>
                                   </div>
                                 </div>
@@ -142,7 +111,9 @@
 
                                 <!-- Grid column -->
                                 <div class="col-auto">
-                                  <button type="submit" style="background: #256188" class="btn btn-sm mb-0"><i class="fa fa-paper-plane"></i></button>
+                                  <button type="submit" style="background: #256188" class="btn btn-sm mb-0" ng-click="addChat(chatMessage)">
+                                    <i class="fa fa-paper-plane"></i>
+                                  </button>
                                 </div>
                                 <!-- Grid column -->
                               </div>
