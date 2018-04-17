@@ -18,6 +18,8 @@ angular
       let makeAWishFacts = MakeAWishFactsService.getMakeAWishFacts();
       $scope.makeAWishFact = makeAWishFacts.pop();
 
+      $scope.gameRegion = $location.search().region;
+
       $scope.switchColors = index => (index % 2 === 0
         ? {
           'background-color': '#F98D3F',
@@ -33,10 +35,9 @@ angular
         timerBox: `This is the timer. You have 21 seconds to choose an answerr
         or 16 seconds to judge others answers(if you are the card czar).`,
         playerBox: 'All the players participating in this game would be shown here.',
-        questionBox: `After the game has started, the question would be 
-        displayed in this box.`,
-        answerBox: `After the game has started, the answers choosen by 
-        you(if you are not the card czar) and others would be shown here.`
+        questionBox: 'After the game has started, the question would be displayed in this box.',
+        answerBox: 'After the game has started, the answers choosen by ' +
+        'you(if you are not the card czar) and others would be shown here.'
       };
 
       $scope.pickCard = (card) => {
@@ -240,11 +241,11 @@ angular
       };
 
       if ($location.search().game && !(/^\d+$/).test($location.search().game)) {
-        game.joinGame('joinGame', $location.search().game);
+        game.joinGame($scope.gameRegion, 'joinGame', $location.search().game);
       } else if ($location.search().custom) {
-        game.joinGame('joinGame', null, true);
+        game.joinGame($scope.gameRegion, 'joinGame', null, true);
       } else {
-        game.joinGame();
+        game.joinGame($scope.gameRegion);
       }
     }
   ]);
