@@ -27,7 +27,7 @@ class Game {
    * @param {object} io
    * @memberof Game
    */
-  constructor(gameID, io) {
+  constructor(gameID, io, regionId) {
     this.io = io;
     this.gameID = gameID;
     this.players = []; // Contains array of player models
@@ -37,8 +37,9 @@ class Game {
     this.winnerAutopicked = false;
     this.czar = -1; // Index in this.players
     this.playerMinLimit = 3;
-    this.playerMaxLimit = 6;
+    this.playerMaxLimit = 12;
     this.pointLimit = 5;
+    this.regionId = regionId;
     this.state = 'awaiting players';
     this.round = 0;
     this.questions = null;
@@ -59,6 +60,9 @@ class Game {
     this.judgingTimeout = 0;
     this.resultsTimeout = 0;
     this.guestNames = guestNames.slice();
+
+    this.getQuestions = this.getQuestions.bind(this);
+    this.getAnswers = this.getAnswers.bind(this);
   }
   /**
  * @returns {object} payload
@@ -213,7 +217,6 @@ class Game {
  */
   stateChoosing(self) { /* eslint-disable-line */
     self.state = 'waiting for players to pick';
-    // console.log(self.gameID,self.state);
     self.table = [];
     self.winningCard = -1;
     self.winningCardPlayer = -1;
@@ -309,26 +312,6 @@ class Game {
   stateDissolveGame() {
     this.state = 'game dissolved';
     this.sendUpdate();
-  }
-  /**
- *@returns {object} getQuestion object
- * @param {any} cb
- * @memberof Game
- */
-  getQuestions(cb) { /* eslint-disable-line */
-    questions.allQuestionsForGame((data) => {
-      cb(null, data);
-    });
-  }
-  /**
- * @returns {object} getAnswers object
- * @param {any} cb
- * @memberof Game
- */
-  getAnswers(cb) { /* eslint-disable-line */
-    answers.allAnswersForGame((data) => {
-      cb(null, data);
-    });
   }
   /**
  *
@@ -450,6 +433,27 @@ class Game {
     }
     return {};
   }
+
+  /**
+   *@returns {object} getQuestion object
+  * @param {any} cb
+  * @memberof Game
+  */
+  getQuestions(cb) { /* eslint-disable-line */
+    questions.allQuestionsForGame((data) => {
+      cb(null, data);
+    }, this.regionId);
+  }
+  /**
+  * @returns {object} getAnswers object
+  * @param {any} cb
+  * @memberof Game
+  */
+  getAnswers(cb) { /* eslint-disable-line */
+    answers.allAnswersForGame((data) => {
+      cb(null, data);
+    }, this.regionId);
+  }
   /**
  *
  *
@@ -548,4 +552,4 @@ class Game {
 }
 
 
-module.exports = Game;
+export default Game;

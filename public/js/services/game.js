@@ -47,7 +47,6 @@ angular.module('mean.system')
       }
     };
 
-
     let timeSetViaUpdate = false;
     const decrementTime = () => {
       if (game.time > 0 && !timeSetViaUpdate) {
@@ -182,7 +181,6 @@ angular.module('mean.system')
         game.players[game.playerIndex].hand = [];
         game.time = 0;
       }
-    // shcke insert
     });
 
     socket.on('notification', (data) => {
