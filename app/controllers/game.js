@@ -1,6 +1,6 @@
 import Game from '../models/game';
 
-const SaveGameLog = (req, res) => {
+exports.SaveGameLog = (req, res) => {
   const { gameID } = req.params;
   const {
     gamePlayers, round, czar, winner
@@ -23,4 +23,13 @@ const SaveGameLog = (req, res) => {
       });
     });
 };
-export default SaveGameLog;
+exports.getGameLog = (req, res) => {
+  Game.find({})
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+// export default SaveGameLog;
