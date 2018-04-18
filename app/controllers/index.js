@@ -1,5 +1,8 @@
 exports.play = (req, res) => {
-  const { regionId } = req.query;
+  let { regionId } = req.query;
+  if (regionId === null || undefined) {
+    regionId = 1;
+  }
   if (Object.keys(req.query)[0] === 'custom') {
     res.redirect('/#!/app?custom');
   } else {
