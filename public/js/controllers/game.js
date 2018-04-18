@@ -1,3 +1,4 @@
+/* global firebase */
 angular
   .module('mean.system')
   .controller('GameController', [
@@ -8,7 +9,8 @@ angular
     '$timeout',
     '$location',
     'MakeAWishFactsService',
-    ($scope, $http, $window, game, $timeout, $location, MakeAWishFactsService) => {
+    '$firebaseArray',
+    ($scope, $http, $window, game, $timeout, $location, MakeAWishFactsService, $firebaseArray) => {
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
       $scope.showTable = false;
@@ -103,10 +105,10 @@ angular
       };
 
       $scope.showFirst = card => game.curQuestion.numAnswers > 1
-      && $scope.pickedCards[0] === card.id;
+        && $scope.pickedCards[0] === card.id;
 
       $scope.showSecond = card => game.curQuestion.numAnswers > 1
-      && $scope.pickedCards[1] === card.id;
+        && $scope.pickedCards[1] === card.id;
 
       $scope.isCzar = () => game.czar === game.playerIndex;
 
@@ -226,6 +228,47 @@ angular
           }
         }
       });
+
+      // Chat
+      $scope.$watch('game.gameID', () => {
+        if (game.gameID) {
+          const ref = firebase.database().ref().child('chat').child(`${game.players[0].socketID}`);
+          const chat = $firebaseArray(ref);
+          chat.$loaded().then(() => {
+            $scope.chat = chat;
+          });
+          $scope.chatMessage = '';
+          $scope.addChat = (message) => {
+            if (message) {
+              const userName = game.players[game.playerIndex].username;
+              chat.$add({ userName, message });
+              $scope.chatMessage = '';
+            }
+          };
+          let currentChatLength = chat.length;
+          $scope.newChatLength = 0;
+          chat.$watch(() => {
+            $scope.newChatLength += chat.length - currentChatLength;
+            currentChatLength = chat.length;
+            $scope.chat = chat;
+            if ($('#chatModal').hasClass('show')) {
+              $scope.newChatLength = 0;
+            }
+            $('.msg_container_base').animate({ scrollTop: 9999 }, 'slow');
+          });
+
+          $scope.resetChatLength = () => {
+            $('.msg_container_base').animate({ scrollTop: 9999 }, 'slow');
+            $scope.newChatLength = 0;
+          };
+
+          $scope.stopChatting = () => {
+            ref.remove();
+            $scope.newChatLength = 0;
+          };
+        }
+      });
+      // Chat
 
       // Add this to the game controller
       $scope.allAnswers = (table) => {
