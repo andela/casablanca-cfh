@@ -32,8 +32,8 @@ angular
 
       $scope.gameTour = {
         startButton: 'Click this button to start the game.',
-        timerBox: `This is the timer. You have 21 seconds to choose an answerr
-        or 16 seconds to judge others answers(if you are the card czar).`,
+        timerBox: `This is the timer. You have 21 seconds to choose an answer
+        or 16 seconds to judge others answers (if you are the card czar).`,
         playerBox: 'All the players participating in this game would be shown here.',
         questionBox: 'After the game has started, the question would be displayed in this box.',
         answerBox: 'After the game has started, the answers choosen by ' +
