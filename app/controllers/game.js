@@ -1,12 +1,11 @@
 import Game from '../models/game';
 
 exports.SaveGameLog = (req, res) => {
-  const { gameID } = req.params;
   const {
-    gamePlayers, round, czar, winner
+    gamePlayers, round, winner, gameID
   } = req.body;
   Game.create({
-    gamePlayers, round, czar, gameID, winner
+    gamePlayers, round, gameID, winner
   })
     .then((game) => {
       res.status(201).send({
@@ -24,12 +23,30 @@ exports.SaveGameLog = (req, res) => {
     });
 };
 exports.getGameLog = (req, res) => {
-  Game.find({})
+  Game.aggregate([
+    {
+      $group: {
+        _id: '$gameID',
+        winner: { $first: '$winner' },
+        gamePlayers: { $first: '$gamePlayers' },
+        round: { $first: '$round' },
+        createdAt: { $first: '$createdAt' },
+        updatedAt: { $first: '$updatedAt' }
+      }
+    }
+  ])
     .then((response) => {
-      console.log(response)
+      res.status(200).send({
+        success: true,
+        message: 'Previous games',
+        response
+      });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        message: 'An error occured fetching previous games'
+      });
     });
 };
 // export default SaveGameLog;
