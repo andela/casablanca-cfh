@@ -108,7 +108,7 @@ module.exports = (app, passport) => {
   app.get('/', index.render);
 
   // Game route
-  app.post('/api/games/:id/start', Authorization.requiresLogin, game.SaveGameLog);
+  app.post('/api/games/:id/start', game.SaveGameLog);
   app.get('/api/games/history', Authorization.requiresLogin, game.getGameLog);
 
   // error handler

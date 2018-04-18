@@ -185,7 +185,7 @@ angular
           round: gameInfo.round,
           czar: gameInfo.players[gameInfo.czar].username,
           gamePlayers,
-          gameID: gameInfo.id
+          gameID: gameInfo.players[0].socketID
         };
         const config = {
           headers: {
