@@ -296,3 +296,11 @@ align-items: flex-end;
   top: -31px;
   right: -16px;
 }
+
+.col-auto {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  /* width: auto; */
+  max-width: none;
+}
