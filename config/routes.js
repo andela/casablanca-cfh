@@ -22,6 +22,10 @@ module.exports = (app, passport) => {
   app.post('/users', users.create);
   app.post('/users/avatars', users.avatars);
 
+  // Search users
+  app.get('/api/search/users', users.search);
+  app.post('/api/user/invite/:user', users.invitePlayers);
+
   // Donation Routes
   app.post('/donations', users.addDonation);
 

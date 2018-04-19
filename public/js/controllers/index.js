@@ -7,13 +7,17 @@ angular.module('mean.system')
     $scope.password = '';
     $scope.custom = false;
 
-    $scope.setCustom = () => {
-      $scope.custom = true;
-    };
-
     $scope.playAsGuest = () => {
       game.joinGame($scope.regionId);
       $location.path('/app').search({ regionId: $scope.gameRegion });
+    };
+
+    $scope.setCustom = () => {
+      $scope.custom = !$scope.custom;
+    };
+
+    $scope.playCustomGame = () => {
+      $window.location = '/play?custom';
     };
 
     $scope.playGame = () => {

@@ -217,7 +217,6 @@ class Game {
  */
   stateChoosing(self) { /* eslint-disable-line */
     self.state = 'waiting for players to pick';
-    // console.log(self.gameID,self.state);
     self.table = [];
     self.winningCard = -1;
     self.winningCardPlayer = -1;
@@ -551,6 +550,5 @@ class Game {
     clearTimeout(this.judgingTimeout);
   }
 }
-
 
 export default Game;

@@ -1,7 +1,10 @@
 exports.play = (req, res) => {
-  const { regionId } = req.query;
+  let { regionId } = req.query;
+  if (regionId === null || undefined) {
+    regionId = 1;
+  }
   if (Object.keys(req.query)[0] === 'custom') {
-    res.redirect(`/#!/app?custom&region=${regionId}`);
+    res.redirect('/#!/app?custom');
   } else {
     res.redirect(`/#!/app?region=${regionId}`);
   }
@@ -12,3 +15,4 @@ exports.render = (req, res) => {
     user: req.user ? JSON.stringify(req.user) : 'null'
   });
 };
+

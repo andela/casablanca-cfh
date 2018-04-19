@@ -61,10 +61,9 @@
             <li>
               <h1 class="h1-responsive title white-text mr-5 mb-3"><strong>Cards For Humanity</strong></h1>
               <h3 class="h3-responsive white-text mr-5 mb-4">A GAME FOR HORRIBLE PEOPLE <span style="color: #F98D3F">DESPERATELY</span> TRYING TO BE GOOD</h3>
-              <div ng-controller="IndexController"> 
-              <a ng-hide="loggedIn" href="#!/signup" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md">Sign Up</a>
-              <a ng-show="loggedIn" data-toggle="modal" data-target="#exampleModal" style="background-color: #F98D3F; margin-left: -31px !important" class="btn btn-md">Play With Friends</a>
-              <a href="" data-toggle="modal" data-target="#exampleModal" ng-click="setCustom()" style="background-color: #256188" class="btn btn-md">{{userButton}}</a>
+              <div ng-controller="IndexController">
+                  <a href="" data-toggle="modal" data-target="#customModal" style="background-color: #F98D3F" class="btn btn-md">Play Custom Game</a>
+                  <a href="" data-toggle="modal" data-target="#exampleModal" ng-click="" style="background-color: #256188" class="btn btn-md">{{userButton}}</a>
               </div>
             </li>
           </ul>
@@ -294,16 +293,39 @@
           </div>
           <div class="modal-body">
             <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1">
-              <option selected value="">Select a region</option>
-              <option value="1">Africa</option>
+              <option value="">Select a region</option>
+              <option selected value="1">Africa</option>
               <option value="2">America</option>
               <!-- <option>Eurasia</option> -->
             </select>
           </div>
           <div class="modal-footer">
-              <button type="button" style="background-color: #F98D3F !important;" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-click="playGame()">Play Game</button>
           </div>
       </div>
   </div>
 </div>
+
+<div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="IndexController">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Game Region</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1">
+                <option value="">Select a region</option>
+                <option selected value="1">Africa</option>
+                <option value="2">Americas</option>
+                <!-- <option>Eurasia</option> -->
+              </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-click="playCustomGame()">Play Game</button>
+            </div>
+        </div>
+    </div>
+  </div>
