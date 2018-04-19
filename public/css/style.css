@@ -70,7 +70,7 @@ ul {
 @media (max-width: 576px) and (max-width: 767px) {
   .trans {
     min-height: 84vh !important;
-  } 
+  }
 }*/
 
 @media (max-width: 992px) and (max-width: 1199px) {
@@ -157,7 +157,7 @@ ul {
  .tour-modal, .tour-modal .introjs-tooltipbuttons{
    text-align: center;
  }
- 
+
  .introjs-helperNumberLayer {
   background: #F98D3F;
  }
@@ -303,4 +303,28 @@ align-items: flex-end;
   flex: 0 0 auto;
   /* width: auto; */
   max-width: none;
+}
+.pad {
+  padding-right: 20px;
+}
+
+.modal-header-color {
+  background: #256188;
+}
+
+.center-winner {
+  text-align: center;
+}
+
+#pad-count-left {
+  padding-left: 40px;
+}
+
+.history-cards {
+  background: #F98D3F;
+  color: #FFF;
+}
+
+.hover-card:hover {
+  cursor: pointer;
 }

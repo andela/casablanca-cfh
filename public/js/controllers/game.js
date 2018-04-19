@@ -47,6 +47,11 @@ angular
         answerBox: 'After the game has started, the answers choosen by ' +
         'you(if you are not the card czar) and others would be shown here.'
       };
+      $scope.gameLog = [];
+      $scope.gameLeaderboard = [];
+      $scope.historyClass = '';
+      $scope.leaderboardClass = 'active';
+      $scope.donationsClass = '';
 
       $scope.pickCard = (card) => {
         if (!$scope.hasPickedCards) {
@@ -326,6 +331,50 @@ angular
 
       $scope.startRound = () => {
         game.startRound();
+      };
+
+      $scope.getGameLog = () => {
+        const config = {
+          headers: {
+            'x-access-token': $window.localStorage.getItem('token')
+          },
+        };
+        $http.get('/api/games/history', config)
+          .then((response) => {
+            $scope.gameLog = response.data.response;
+          })
+          .catch((error) => {
+            throw error;
+          });
+      };
+
+      $scope.getGameLeaderboard = () => {
+        $http.get('/api/leaderboard')
+          .then((response) => {
+            console.log(response);
+            $scope.gameLeaderboard = response.data.response;
+          })
+          .catch((error) => {
+            throw error;
+          });
+      };
+
+      $scope.toggleHistoryActive = () => {
+        $scope.historyClass = 'active';
+        $scope.leaderboardClass = '';
+        $scope.donationsClass = '';
+      };
+
+      $scope.toggleLeaderboardActive = () => {
+        $scope.historyClass = '';
+        $scope.leaderboardClass = 'active';
+        $scope.donationsClass = '';
+      };
+
+      $scope.toggleDonationsActive = () => {
+        $scope.historyClass = '';
+        $scope.leaderboardClass = '';
+        $scope.donationsClass = 'active';
       };
 
       if ($location.search().game && !(/^\d+$/).test($location.search().game)) {

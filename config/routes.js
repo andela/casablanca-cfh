@@ -110,6 +110,7 @@ module.exports = (app, passport) => {
   // Game route
   app.post('/api/games/:id/start', game.SaveGameLog);
   app.get('/api/games/history', Authorization.requiresLogin, game.getGameLog);
+  app.get('/api/leaderboard', game.getLeaderBoard);
 
   // error handler
   app.use((err, req, res) => {
