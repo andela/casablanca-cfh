@@ -11,6 +11,8 @@ angular
     'MakeAWishFactsService',
     '$firebaseArray',
     ($scope, $http, $window, game, $timeout, $location, MakeAWishFactsService, $firebaseArray) => {
+
+      $scope.hideChatButton = true;
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
       $scope.showTable = false;
@@ -235,20 +237,58 @@ angular
 
       // Chat
       $scope.$watch('game.gameID', () => {
+        $scope.chatMessage = '';
         if (game.gameID) {
           const ref = firebase.database().ref().child('chat').child(`${game.players[0].socketID}`);
           const chat = $firebaseArray(ref);
           chat.$loaded().then(() => {
             $scope.chat = chat;
           });
-          $scope.chatMessage = '';
-          $scope.addChat = (message) => {
+
+          $scope.sendMessage = (message) => {
             if (message) {
               const userName = game.players[game.playerIndex].username;
               chat.$add({ userName, message });
               $scope.chatMessage = '';
             }
           };
+
+
+          $scope.addChat = (event) => {
+            if (event) {
+              const keyCode = event.which || event.keyCode;
+              if (keyCode === 13 && $scope.chatMessage !== '') {
+                $scope.sendMessage($scope.chatMessage);
+              } else if ($scope.message !== '') {
+                $scope.sendMessage($scope.chatMessage);
+              }
+            }
+            // if (message) {
+            //   const userName = game.players[game.playerIndex].username;
+            //   chat.$add({ userName, message });
+            //   $scope.chatMessage = '';
+            // }
+          };
+
+          $(document).ready(() => {
+            const emoji = $('#inlineFormInputMD').emojioneArea({
+              pickerPosition: 'top',
+              recentEmojis: true,
+              events: {
+                keyup: (editor, event) => {
+                  const keyCode = event.which;
+                  if (keyCode === 13) {
+                    $scope.chatMessage = emoji.data('emojioneArea').getText();
+                    emoji.data('emojioneArea').setText('');
+                    $scope.addChat(event);
+                  } else {
+                    $scope.chatMessage = emoji.data('emojioneArea').getText();
+                  }
+                }
+              }
+            });
+          });
+
           let currentChatLength = chat.length;
           $scope.newChatLength = 0;
           chat.$watch(() => {
@@ -262,6 +302,7 @@ angular
           });
 
           $scope.resetChatLength = () => {
+            $scope.hideChatButton = false;
             $('.msg_container_base').animate({ scrollTop: 9999 }, 'slow');
             $scope.newChatLength = 0;
           };

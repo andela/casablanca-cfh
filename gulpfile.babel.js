@@ -57,6 +57,11 @@ gulp.task('underscore', () => {
     .pipe(gulp.dest('./build/public/lib/underscore'));
 });
 
+gulp.task('emojionearea', () => {
+  gulp.src('bower_components/emojionearea/dist/*')
+    .pipe(gulp.dest('./build/public/lib/emojionearea'));
+});
+
 gulp.task('angularUtils', () => {
   gulp.src('bower_components/angular-ui-utils/modules/route/route.js')
     .pipe(gulp.dest('./build/public/lib/angular-ui-utils/modules'));
@@ -67,6 +72,7 @@ gulp.task('moveBowerComponents', [
   'jquery',
   'underscore',
   'angularUtils',
+  'emojionearea'
 ]);
 
 // Watch  for file changes
