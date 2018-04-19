@@ -1,146 +1,241 @@
-<header class="header" ng-controller="GameController">
-  <!--Navbar-->
-  <nav class="navbar navbar-expand-lg z-depth-1-half navbar-dark" style="background-color: #fff">
-    <div class="container">
-      <!-- Navbar brand -->
-      <a class="navbar-brand black-text" href="#">
-        <i style="color: #F98D3F" class="fa fa-circle"></i>
-        <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</a>
+<div ng-controller="GameController">
+  <header class="header">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg z-depth-1-half navbar-dark" style="background-color: #fff">
+      <div class="container">
+        <!-- Navbar brand -->
+        <a class="navbar-brand black-text" href="#">
+          <i style="color: #F98D3F" class="fa fa-circle"></i>
+          <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>CFH</a>
 
-      <!-- Collapse button -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon red-text"></span>
-      </button>
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon red-text"></span>
+        </button>
 
-      <!-- Collapsible content -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item">
-            <a class="nav-link waves-effect waves-light z-depth-3 ml-1 ttp text-center white-text" style="border-radius: 20px; font-size: 15px;"
-              href="signup.html">
-              <i class="fa fa-twitter blue-text"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px; font-size: 15px;"
-              onclick="startTour()" ng-hide="game.state !== 'awaiting players'">Take a Tour</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #256188; border-radius: 20px; font-size: 15px;"
-              ng-click="abandonGame()">Abandon Game</a>
-          </li>
-        </ul>
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+              <!-- <a class="nav-link waves-effect waves-light z-depth-3 ml-1 ttp text-center white-text" style="border-radius: 20px; font-size: 15px;"
+                href="signup.html">
+                <i class="fa fa-twitter blue-text"></i>
+
+              </a> -->
+              <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" ng-click="getGameLeaderboard(); getGameLog();">
+  Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+      <div class="modal-header text-center modal-header-color">
+        <ul class="nav" style="margin: 0 auto" role="tablist">
+    <li class="nav-item pad" ng-class="leaderboardClass">
+      <a class="nav-link white-text" id="leaderboard-tab" href="#game-leaderboard" target="_self" ng-click="toggleLeaderboardActive()" data-toggle="tab" role="tab" aria-controls="leaderboard"><strong>Leaderboard</strong></a>
+    </li>
+    <li class="nav-item pad" ng-class="historyClass">
+      <a class="nav-link white-text" id="history-tab" href="#game-history" target="_self" ng-click="toggleHistoryActive()" data-toggle="tab" role="tab" aria-controls="history"><strong>History</strong></a>
+    </li>
+    <li class="nav-item pad" ng-class="donationsClass">
+      <a class="nav-link white-text" id="donations-tab" href="#game-donations" target="_self" ng-click="toggleDonationsActive()" data-toggle="tab" role="tab" aria-controls="donations"><strong>Donations</strong></a>
+    </li>
+  </ul>
       </div>
-  </nav>
+      <div class="modal-body">
+        <div id="game-tabs" class="tab-content">
+            <div id="game-leaderboard" class="tab-pane show active" role="tabpanel" aria-labelledby="leaderboard-tab">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th class="center-winner">Winner</th>
+                    <th>Games Won</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="game in gameLeaderboard">
+                    <td>{{$index + 1}}</td>
+                    <td class="center-winner">{{ game._id }}</td>
+                    <td id="pad-count-left">{{ game.count }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <ul ng-repeat="game in gameLeaderboard">
+                <li>{{ game._id }}</li>
+              </ul> -->
+            </div>
+            <div id="game-history" class="tab-pane" role="tabpanel" aria-labelledby="history-tab">
+              <div id="accordion">
+                <div ng-repeat="game in gameLog">
+                  <div class="card mb-3 hover-card" data-toggle="collapse" data-target="{{ '#collapse' + $index }}">
+                    <div class="card-header history-cards" id="{{ 'heading' + $index }}">
+                      <h5 class="mb-0">
+                        <!-- <button class="btn btn-primary black-text">{{game.winner}}, {{ game.createdAt }}</button> -->
+                        <p>{{game.winner}}, Won at: <time>{{ game.createdAt | date : format : timezone }}</time></p>
+                      </h5>
+                    </div>
 
-  <!-- mask -->
-  <div id="intro" class="view">
-    <!-- <div id="intro" class="view mask pattern-1"> -->
-    <div class="view mask rgba-black-strong"></div>
-
-    <div class="container space">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="row">
-            <div class="col-xl-3">
-              <div data-intro={{gameTour.timerBox}} data-step="2">
-                <timer></timer>
-
-                <!-- Button trigger modal -->
-                <div>
-                  <button ng-show="hideChatButton" style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn"
-                    data-toggle="modal" data-target="#chatModal" ng-click="resetChatLength()">
-                    <i class="fa fa-comments fa-4x white-text"></i>
-                    <span class="badge badge-pill" style="background: #F98D3F;" ng-show="newChatLength">{{newChatLength}}</span>
-                  </button>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal fade left" id="chatModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-side modal-bottom-left" style="width: 348px; margin-left: 19px" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header" style="background: #256188; margin-top: -11px; margin-bottom: -20px; ">
-                        <h3 style="    margin-left: 106px;" class="panel-title white-text text-center">
-                          <i class="fa fa-comments white-text"></i>
-                          <strong> Chat</strong>
-                        </h3>
-                        <button ng-click="hideChatButton = !hideChatButton" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span style="color: white" aria-hidden="true">&times;</span>
-                        </button>
+                    <div class="collapse" id="{{ 'collapse' + $index }}" data-parent="#accordion">
+                      <div class="card-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Score</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="player in game.gamePlayers">
+                              <td>{{$index + 1}}</td>
+                              <td>{{player[0]}}</td>
+                              <td>{{player[1]}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                      <div class="modal-body">
-                        <div class="panel panel-default">
-                          <div class="panel-body msg_container_base">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="game-donations" role="tabpanel" role="tab-pane" aria-labelledby="donations-tab">
 
-                            <!-- Single chat box -->
-                            <div class="row msg_container base_sent" ng-repeat="chat in chat">
-                              <div class="col-md-10 col-xs-10 " style="margin: 0 auto; padding-right: 0px; padding-left: 0px;">
-                                <div class="messages msg_sent" style="background: #256188">
-                                  <span class="mt-2 mr-1" style="height: 10px; width: 10px; background-color: #F98D3F; border-radius: 50%; float: left;">&nbsp;</span>
-                                  <span class="white-text" style="font-size: 18px">
-                                    {{chat.userName}}
-                                  </span>
-                                  <p class="white-text">{{chat.message}}</p>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+  </div>
+  </div>
+  </div>
+
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px; font-size: 15px;"
+                onclick="startTour()" ng-hide="game.state !== 'awaiting players'">Take a Tour</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #256188; border-radius: 20px; font-size: 15px;"
+                ng-click="abandonGame()">Abandon Game</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <!-- mask -->
+    <div id="intro" class="view">
+      <!-- <div id="intro" class="view mask pattern-1"> -->
+      <div class="view mask rgba-black-strong"></div>
+
+      <div class="container space">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="row">
+              <div class="col-xl-3">
+                <div data-intro={{gameTour.timerBox}} data-step="2">
+                  <timer></timer>
+
+                  <!-- Button trigger modal -->
+                  <div>
+                    <button ng-show="hideChatButton" style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn" data-toggle="modal"
+                      data-target="#chatModal" ng-click="resetChatLength()">
+                      <i class="fa fa-comments fa-4x white-text"></i>
+                      <span class="badge badge-pill" style="background: #F98D3F;" ng-show="newChatLength">{{newChatLength}}</span>
+                    </button>
+                  </div>
+
+                  <!-- Modal -->
+                  <div class="modal fade left" id="chatModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-side modal-bottom-left" style="width: 348px; margin-left: 19px" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header" style="background: #256188; margin-top: -11px; margin-bottom: -20px; ">
+                          <h3 style="    margin-left: 106px;" class="panel-title white-text text-center">
+                            <i class="fa fa-comments white-text"></i>
+                            <strong> Chat</strong>
+                          </h3>
+                          <button ng-click="hideChatButton = !hideChatButton" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span style="color: white" aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="panel panel-default">
+                            <div class="panel-body msg_container_base">
+
+                              <!-- Single chat box -->
+                              <div class="row msg_container base_sent" ng-repeat="chat in chat">
+                                <div class="col-md-10 col-xs-10 " style="margin: 0 auto; padding-right: 0px; padding-left: 0px;">
+                                  <div class="messages msg_sent" style="background: #256188">
+                                    <span class="mt-2 mr-1" style="height: 10px; width: 10px; background-color: #F98D3F; border-radius: 50%; float: left;">&nbsp;</span>
+                                    <span class="white-text" style="font-size: 18px">
+                                      {{chat.userName}}
+                                    </span>
+                                    <p class="white-text">{{chat.message}}</p>
+                                  </div>
                                 </div>
                               </div>
+                              <!-- ./Single chat box -->
+
                             </div>
-                            <!-- ./Single chat box -->
+                            <div class="panel-footer">
+                              <input type="text" autocomplete="off" placeholder="Type a message" ng-model="chatMessage" ng-keypress="addChat($event)" class="form-control"
+                                id="inlineFormInputMD" />
+                              <!-- Material auto-sizing form -->
+                              <!-- <form style="margin-top: -12PX;margin-bottom: -10px;"> -->
+                                <!-- Grid row -->
+                                <!-- <div class="form-row align-items-center" style="margin-left: 10px;"> -->
+                                  <!-- Grid column -->
+                                  <!-- <div class="col-auto"> -->
+                                    <!-- Material input -->
+                                    <!-- <div class="md-form">
+                                      <input type="text" style="width: 200px;" class="form-control mb-2" id="inlineFormInputMD" autocomplete="off" placeholder="Type a message" ng-model="chatMessage">
+                                      <label class="sr-only" for="inlineFormInputMD">Name</label>
+                                    </div>
+                                  </div> -->
+                                  <!-- Grid column -->
 
-                          </div>
-                          <div class="panel-footer">
-                            <input type="text" autocomplete="off" placeholder="Type a message" ng-model="chatMessage" ng-keypress="addChat($event)" class="form-control"
-                              id="inlineFormInputMD" />
-                            <!-- Material auto-sizing form -->
-                            <!-- <form style="margin-top: -12PX;
-                            margin-bottom: -10px;"> -->
-                            <!-- Grid row -->
-                            <!-- <div class="form-row align-items-center" style="margin-left: 10px;"> -->
-                            <!-- Grid column -->
-                            <!-- <div class="col-auto"> -->
-                            <!-- Material input -->
-                            <!-- <div class="md-form">
-                                    <input type="text" style="width: 200px;" class="form-control mb-2" id="inlineFormInputMD" autocomplete="off" placeholder="Type a message" ng-model="chatMessage">
-                                    <label class="sr-only" for="inlineFormInputMD">Name</label>
-                                  </div>
-                                </div> -->
-                            <!-- Grid column -->
+                                  <!-- Grid column -->
 
-                            <!-- Grid column -->
+                                  <!-- Grid column -->
 
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <!-- <div class="col-auto">
-                                  <button type="submit" style="background: #256188" class="btn btn-sm mb-0" ng-click="addChat(chatMessage)">
-                                    <i class="fa fa-paper-plane"></i>
-                                  </button>
-                                </div> -->
-                            <!-- Grid column -->
-                            <!-- </div> -->
-                            <!-- Grid row -->
-                            <!-- </form> -->
-                            <!-- Material auto-sizing form -->
+                                  <!-- Grid column -->
+                                  <!-- <div class="col-auto">
+                                    <button type="submit" style="background: #256188" class="btn btn-sm mb-0" ng-click="addChat(chatMessage)">
+                                      <i class="fa fa-paper-plane"></i>
+                                    </button>
+                                  </div> -->
+                                  <!-- Grid column -->
+                                <!-- </div> -->
+                                <!-- Grid row -->
+                              <!-- </form> -->
+                              <!-- Material auto-sizing form -->
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-              </div>
-            </div>
-            <div class="col-xl-9">
-              <div class="row">
-                <div class="col-xl-12">
-                  <div data-intro={{gameTour.questionBox}} data-step="4">
-                    <question></question>
-                  </div>
                 </div>
-                <div class="col-xl-12">
-                  <div data-intro={{gameTour.answerBox}} data-step="5">
-                    <answers></answers>
+              </div>
+              <div class="col-xl-9">
+                <div class="row">
+                  <div class="col-xl-12">
+                    <div data-intro={{gameTour.questionBox}} data-step="4">
+                      <question></question>
+                    </div>
+                  </div>
+                  <div class="col-xl-12">
+                    <div data-intro={{gameTour.answerBox}} data-step="5">
+                      <answers></answers>
+                    </div>
                   </div>
                 </div>
               </div>

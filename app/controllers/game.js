@@ -31,7 +31,6 @@ exports.getGameLog = (req, res) => {
         gamePlayers: { $first: '$gamePlayers' },
         round: { $first: '$round' },
         createdAt: { $first: '$createdAt' },
-        updatedAt: { $first: '$updatedAt' }
       }
     }
   ])
@@ -46,6 +45,35 @@ exports.getGameLog = (req, res) => {
       res.status(500).send({
         success: false,
         message: 'An error occured fetching previous games'
+      });
+    });
+};
+
+exports.getLeaderBoard = (req, res) => {
+  Game.aggregate([
+    {
+      $group: {
+        _id: '$gameID',
+        winner: { $first: '$winner' },
+      },
+    },
+    {
+      $group: {
+        _id: '$winner',
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: {
+        count: -1
+      }
+    }
+  ])
+    .then((response) => {
+      res.status(200).send({
+        success: true,
+        message: 'Leaderboard',
+        response
       });
     });
 };
