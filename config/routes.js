@@ -9,7 +9,8 @@ import * as questions from '../app/controllers/questions';
 import avatars from '../app/controllers/avatars';
 import index from '../app/controllers/index';
 import Authorization from '../config/middlewares/authorization';
-import saveGameLog from '../app/controllers/game';
+import game from '../app/controllers/game';
+// import { saveGameLog, getGameLog } from '../app/controllers/game';
 
 module.exports = (app, passport) => {
   // User Routes
@@ -107,7 +108,9 @@ module.exports = (app, passport) => {
   app.get('/', index.render);
 
   // Game route
-  app.post('/api/games/:id/start', Authorization.requiresLogin, saveGameLog);
+  app.post('/api/games/:id/start', game.SaveGameLog);
+  app.get('/api/games/history', Authorization.requiresLogin, game.getGameLog);
+  app.get('/api/leaderboard', game.getLeaderBoard);
 
   // error handler
   app.use((err, req, res) => {
@@ -116,4 +119,3 @@ module.exports = (app, passport) => {
     }
   });
 };
-

@@ -1,12 +1,11 @@
 import Game from '../models/game';
 
-const SaveGameLog = (req, res) => {
-  const { gameID } = req.params;
+exports.SaveGameLog = (req, res) => {
   const {
-    gamePlayers, round, czar, winner
+    gamePlayers, round, winner, gameID
   } = req.body;
   Game.create({
-    gamePlayers, round, czar, gameID, winner
+    gamePlayers, round, gameID, winner
   })
     .then((game) => {
       res.status(201).send({
@@ -23,4 +22,62 @@ const SaveGameLog = (req, res) => {
       });
     });
 };
-export default SaveGameLog;
+exports.getGameLog = (req, res) => {
+  Game.aggregate([
+    {
+      $group: {
+        _id: '$gameID',
+        winner: { $first: '$winner' },
+        gamePlayers: { $first: '$gamePlayers' },
+        round: { $first: '$round' },
+        createdAt: { $first: '$createdAt' },
+      }
+    },
+    {
+      $sort: { createdAt: -1 }
+    }
+  ])
+    .then((response) => {
+      res.status(200).send({
+        success: true,
+        message: 'Previous games',
+        response
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        message: 'An error occured fetching previous games'
+      });
+    });
+};
+
+exports.getLeaderBoard = (req, res) => {
+  Game.aggregate([
+    {
+      $group: {
+        _id: '$gameID',
+        winner: { $first: '$winner' },
+      },
+    },
+    {
+      $group: {
+        _id: '$winner',
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: {
+        count: -1
+      }
+    }
+  ])
+    .then((response) => {
+      res.status(200).send({
+        success: true,
+        message: 'Leaderboard',
+        response
+      });
+    });
+};
+// export default SaveGameLog;

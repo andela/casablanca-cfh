@@ -47,6 +47,16 @@ gulp.task('jquery', () => {
     .pipe(gulp.dest('./build/public/lib/jquery'));
 });
 
+gulp.task('emojioneCSS', () => {
+  gulp.src('bower_components/emojione/extras/css/emojione.css')
+    .pipe(gulp.dest('./build/public/lib/emojionearea'));
+});
+
+gulp.task('emojioneJS', () => {
+  gulp.src('bower_components/emojione/lib/js/emojione.js')
+    .pipe(gulp.dest('./build/public/lib/emojionearea'));
+});
+
 gulp.task('boostrap', () => {
   gulp.src('bower_components/bootstrap/**/*')
     .pipe(gulp.dest('public/lib/bootstrap'));
@@ -83,8 +93,8 @@ gulp.task('moveBowerComponents', [
   'underscore',
   'angularUtils',
   'emojionearea',
-  'emojioneJS',
   'emojioneCSS',
+  'emojioneJS'
 ]);
 
 // Watch  for file changes
