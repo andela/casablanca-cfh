@@ -174,12 +174,12 @@ exports.signupJWT = (req, res) => {
               token: generateToken({ name: req.body.name, email: req.body.email }),
             });
           })
-          .catch(() => {
-            res.status(400).send({
-              success: false,
-              message: 'Signup failed'
-            });
-          });
+          // .catch(() => {
+          //   res.status(400).send({
+          //     success: false,
+          //     message: 'Signup failed'
+          //   });
+          // });
       }
     });
 };
