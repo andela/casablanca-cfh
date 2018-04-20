@@ -24,9 +24,6 @@
 
               </a> -->
               <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" ng-click="getGameLeaderboard(); getGameLog();">
-  Launch demo modal
-  </button>
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,14 +65,14 @@
                 <li>{{ game._id }}</li>
               </ul> -->
             </div>
-            <div id="game-history" class="tab-pane" role="tabpanel" aria-labelledby="history-tab">
+            <div id="game-history" class="tab-pane fade" role="tabpanel" aria-labelledby="history-tab">
               <div id="accordion">
                 <div ng-repeat="game in gameLog">
                   <div class="card mb-3 hover-card" data-toggle="collapse" data-target="{{ '#collapse' + $index }}">
                     <div class="card-header history-cards" id="{{ 'heading' + $index }}">
                       <h5 class="mb-0">
                         <!-- <button class="btn btn-primary black-text">{{game.winner}}, {{ game.createdAt }}</button> -->
-                        <p>{{game.winner}}, Won at: <time>{{ game.createdAt | date : format : timezone }}</time></p>
+                        <p>Winner: {{game.winner}} (<time>{{ game.createdAt | date : format : timezone }}</time>)</p>
                       </h5>
                     </div>
 
@@ -103,19 +100,23 @@
                 </div>
               </div>
             </div>
-            <div id="game-donations" role="tabpanel" role="tab-pane" aria-labelledby="donations-tab">
-
+            <div class="tab-pane fade" id="game-donations" role="tabpanel" role="tab-pane" aria-labelledby="donations-tab">
+              <p>No donations have been made yet</p>
             </div>
           </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn" id="close-button" data-dismiss="modal">Close</button>
       </div>
   </div>
   </div>
   </div>
 
+            </li>
+            <li class="nav-item">
+              <a role="button" class="btn history-button nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" data-toggle="modal" data-target="#exampleModal" ng-click="getGameLeaderboard(); getGameLog();">
+              Game History
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" style="background-color: #F98D3F; border-radius: 20px; font-size: 15px;"

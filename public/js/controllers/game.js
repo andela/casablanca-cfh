@@ -11,7 +11,6 @@ angular
     'MakeAWishFactsService',
     '$firebaseArray',
     ($scope, $http, $window, game, $timeout, $location, MakeAWishFactsService, $firebaseArray) => {
-
       $scope.hideChatButton = true;
       $scope.hasPickedCards = false;
       $scope.winningCardPicked = false;
@@ -351,7 +350,6 @@ angular
       $scope.getGameLeaderboard = () => {
         $http.get('/api/leaderboard')
           .then((response) => {
-            console.log(response);
             $scope.gameLeaderboard = response.data.response;
           })
           .catch((error) => {
@@ -399,9 +397,6 @@ angular
         }).then(() => {
           triggerInviteModal();
         });
-      };
-      $scope.countPlayers = (userEmail) => {
-        $scope.selectedUsers.push(userEmail);
       };
 
       $scope.selectedUsersLength = $scope.selectedUsers.length;
