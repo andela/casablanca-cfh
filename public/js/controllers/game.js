@@ -351,9 +351,6 @@ angular
           triggerInviteModal();
         });
       };
-      $scope.countPlayers = (userEmail) => {
-        $scope.selectedUsers.push(userEmail);
-      };
 
       $scope.selectedUsersLength = $scope.selectedUsers.length;
       $scope.showSending = false;

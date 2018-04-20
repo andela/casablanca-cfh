@@ -174,31 +174,6 @@
     </div>
   </div>
   
-    <!-- sending invite loader -->
-    <!-- <div class="modal fade animated flipInY" id="inviteLoader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-center" id="exampleModalLabel">
-              <i style="color: #F98D3F" class="fa fa-circle"></i>
-              <i style="color: #256188; margin-left: -13px" class="fa fa-circle"></i>Invite Friends</h5>
-  
-          </div>
-          <div class="modal-body text-center">
-            <div id="invite-gif" style="margin: -30px auto">
-              <img style="height: 100px; width: 100px; margin: 0 auto;" src="../img/loaders/sentInvite.gif" />
-            </div>
-            <div>
-                <p>Invites are being sent...</p>
-            </div>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-    </div> -->
-  
     <!-- invite modal -->
     <div class="modal fade animated flipInY" id="inviteFriends" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
@@ -218,19 +193,14 @@
             <div class="md-form mb-4">
                 <i style="color: #256188 !important;" class="fa fa-envelope prefix"></i>
                 <input type="email" id="materialFormEmailModalEx1" name="email" class="form-control form-control-sm" ng-model="input"
-                required placeholder="E-mail address">            
-                    <!-- <label for="inputIconEx1">E-mail address</label> -->
+                required placeholder="E-mail address">
             </div>
             <div ng-hide="selectedUsersLength===1">
                 <div>
-                    <!-- <span> Search for user:
-                        <input placeholder='search by username' type="text" ng-keyup="searchUsers(searchTerm)" ng-model="searchTerm">
-                      </span> -->
                       <div class="md-form mb-4">
                           <i style="color: #256188 !important;" class="fa fa-search prefix"></i>
                           <input type="text" ng-keyup="searchUsers(searchTerm)" ng-model="searchTerm" id="materialFormEmailModalEx1" name="email" class="form-control form-control-sm" ng-model="input"
                           required placeholder="Search for user:">            
-                              <!-- <label for="inputIconEx1">E-mail address</label> -->
                       </div>
                 </div>
                 
