@@ -32,6 +32,9 @@ exports.getGameLog = (req, res) => {
         round: { $first: '$round' },
         createdAt: { $first: '$createdAt' },
       }
+    },
+    {
+      $sort: { createdAt: -1 }
     }
   ])
     .then((response) => {
