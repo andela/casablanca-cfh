@@ -7,8 +7,9 @@ import nodemailer from 'nodemailer';
 import bcrypt from 'bcryptjs';
 import { all as avatars } from './avatars';
 
-const User = mongoose.model('User');
 
+const User = mongoose.model('User');
+const Notification = mongoose.model('Notification');
 /**
  * An helper to genrate token that expires in one week.
  * @param {Object} payload The payload to embed in the token.
@@ -67,10 +68,10 @@ exports.search = (req, res) => {
   });
 };
 
-exports.invitePlayers = (req, res) => {
-  const recieverEmail = req.body.email;
+const sendInviteMail = (email, req, res) => {
+  const recieverEmail = email;
   nodemailer.createTestAccount((err, account) => {/* eslint-disable-line */
-  // create reusable transporter object using the default SMTP transport
+    // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -96,14 +97,96 @@ exports.invitePlayers = (req, res) => {
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return res.json(error);
+      if (res) {
+        if (error) {
+          return res.json(error);
+        }
+        return res.json({ sent: true, info });
       }
-      return res.json({ sent: true, info });
     });
   });
 };
 
+const sendInviteNotification = (recieverEmail, req, res) => {
+  const details = {
+    url: req.body.urlLink,
+    receiver: recieverEmail,
+    sender: req.decoded.email,
+    message: `You have 
+      been invited to join a game by ${req.decoded.name}, 
+      click this message to join ${req.body.urlLink}`
+  };
+  Notification.create(details)
+    .then((notification) => {
+      res.status(201).send({
+        success: true,
+        message: notification.message,
+        notification
+      });
+    })
+    .catch((error) => {
+      res.status(400).send({
+        success: false,
+        message: 'Error occurred while sending notification(s)',
+        error: error.message
+      });
+    });
+};
+
+exports.invitePlayers = (req, res) => {
+  const recieverEmail = req.body.email;
+  User.findOne({
+    email: recieverEmail
+  }).exec((err, user) => {
+    if (err) {
+      res.status(500).send({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+    if (!user) {
+      // invite by email
+      sendInviteMail(recieverEmail, req, res);
+    } else {
+      // invite by notification and email
+      sendInviteMail(recieverEmail, req);
+      sendInviteNotification(recieverEmail, req, res);
+    }
+  });
+};
+
+exports.getGameInviteNotification = (req, res) => {
+  Notification.find({
+    receiver: req.decoded.email,
+    read: false
+  })
+    .then((notifications) => {
+      res.status(200).send({
+        success: true,
+        notifications
+      });
+    });
+};
+
+exports.readGameInviteNotification = (req, res) => {
+  Notification.update({
+    receiver: req.decoded.email,
+  }, { read: true, read_at: Date.now() }, { multi: true })
+    .then((response) => {
+      res.status(200).send({
+        success: true,
+        message: 'You have successfully read your notification',
+        response
+      });
+    })
+    .catch((error) => {
+      res.status(400).send({
+        success: false,
+        message: 'Error occurred while fetching your notification',
+        error: error.message
+      });
+    });
+};
 
 /**
  * @param {object} req
@@ -269,6 +352,34 @@ exports.loginJWT = (req, res) => {
           message: 'Incorrect password',
         });
       }
+    });
+};
+
+
+exports.addFriend = (req, res) => {
+  const friendEmail = req.body.email;
+  const { email } = req.decoded;
+  User.findOne({ email: friendEmail })
+    .exec((err, userFound) => {
+      if (err) {
+        return res.status(500).send({
+          success: false,
+          message: 'Internal server error'
+        });
+      } else if (!userFound) {
+        return res.status(404).send({
+          success: false,
+          message: 'User might not exist anymore',
+        });
+      }
+      User.update(
+        { email },
+        { $push: { friendList: friendEmail } },
+        { new: true }, (err, response) => res.status(200).send({
+          message: 'User added to list',
+          user: response
+        })
+      );
     });
 };
 

@@ -25,7 +25,11 @@ module.exports = (app, passport) => {
 
   // Search users
   app.get('/api/search/users', users.search);
-  app.post('/api/user/invite/:user', users.invitePlayers);
+  app.post('/api/users/invite', Authorization.requiresLogin, users.invitePlayers);
+
+  app.post('/api/users/add-friend', Authorization.requiresLogin, users.addFriend);
+  app.get('/api/users/notifications', Authorization.requiresLogin, users.getGameInviteNotification);
+  app.put('/api/users/notifications', Authorization.requiresLogin, users.readGameInviteNotification);
 
   // Donation Routes
   app.post('/donations', users.addDonation);

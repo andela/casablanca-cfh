@@ -25,97 +25,123 @@
               </a> -->
               <!-- Button trigger modal -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-  <div class="modal-content">
-      <div class="modal-header text-center modal-header-color">
-        <ul class="nav" style="margin: 0 auto" role="tablist">
-    <li class="nav-item pad" ng-class="leaderboardClass">
-      <a class="nav-link white-text" id="leaderboard-tab" href="#game-leaderboard" target="_self" ng-click="toggleLeaderboardActive()" data-toggle="tab" role="tab" aria-controls="leaderboard"><strong>Leaderboard</strong></a>
-    </li>
-    <li class="nav-item pad" ng-class="historyClass">
-      <a class="nav-link white-text" id="history-tab" href="#game-history" target="_self" ng-click="toggleHistoryActive()" data-toggle="tab" role="tab" aria-controls="history"><strong>History</strong></a>
-    </li>
-    <li class="nav-item pad" ng-class="donationsClass">
-      <a class="nav-link white-text" id="donations-tab" href="#game-donations" target="_self" ng-click="toggleDonationsActive()" data-toggle="tab" role="tab" aria-controls="donations"><strong>Donations</strong></a>
-    </li>
-  </ul>
-      </div>
-      <div class="modal-body">
-        <div id="game-tabs" class="tab-content">
-            <div id="game-leaderboard" class="tab-pane show active" role="tabpanel" aria-labelledby="leaderboard-tab">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th class="center-winner">Winner</th>
-                    <th>Games Won</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="game in gameLeaderboard">
-                    <td>{{$index + 1}}</td>
-                    <td class="center-winner">{{ game._id }}</td>
-                    <td id="pad-count-left">{{ game.count }}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- <ul ng-repeat="game in gameLeaderboard">
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header text-center modal-header-color">
+                      <ul class="nav" style="margin: 0 auto" role="tablist">
+                        <li class="nav-item pad" ng-class="leaderboardClass">
+                          <a class="nav-link white-text" id="leaderboard-tab" href="#game-leaderboard" target="_self" ng-click="toggleLeaderboardActive()"
+                            data-toggle="tab" role="tab" aria-controls="leaderboard">
+                            <strong>Leaderboard</strong>
+                          </a>
+                        </li>
+                        <li class="nav-item pad" ng-class="historyClass">
+                          <a class="nav-link white-text" id="history-tab" href="#game-history" target="_self" ng-click="toggleHistoryActive()" data-toggle="tab"
+                            role="tab" aria-controls="history">
+                            <strong>History</strong>
+                          </a>
+                        </li>
+                        <li class="nav-item pad" ng-class="donationsClass">
+                          <a class="nav-link white-text" id="donations-tab" href="#game-donations" target="_self" ng-click="toggleDonationsActive()"
+                            data-toggle="tab" role="tab" aria-controls="donations">
+                            <strong>Donations</strong>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="modal-body">
+                      <div id="game-tabs" class="tab-content">
+                        <div id="game-leaderboard" class="tab-pane show active" role="tabpanel" aria-labelledby="leaderboard-tab">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th class="center-winner">Winner</th>
+                                <th>Games Won</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="game in gameLeaderboard">
+                                <td>{{$index + 1}}</td>
+                                <td class="center-winner">{{ game._id }}</td>
+                                <td id="pad-count-left">{{ game.count }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <!-- <ul ng-repeat="game in gameLeaderboard">
                 <li>{{ game._id }}</li>
               </ul> -->
-            </div>
-            <div id="game-history" class="tab-pane fade" role="tabpanel" aria-labelledby="history-tab">
-              <div id="accordion">
-                <div ng-repeat="game in gameLog">
-                  <div class="card mb-3 hover-card" data-toggle="collapse" data-target="{{ '#collapse' + $index }}">
-                    <div class="card-header history-cards" id="{{ 'heading' + $index }}">
-                      <h5 class="mb-0">
-                        <!-- <button class="btn btn-primary black-text">{{game.winner}}, {{ game.createdAt }}</button> -->
-                        <p>Winner: {{game.winner}} (<time>{{ game.createdAt | date : format : timezone }}</time>)</p>
-                      </h5>
-                    </div>
+                        </div>
+                        <div id="game-history" class="tab-pane fade" role="tabpanel" aria-labelledby="history-tab">
+                          <div id="accordion">
+                            <div ng-repeat="game in gameLog">
+                              <div class="card mb-3 hover-card" data-toggle="collapse" data-target="{{ '#collapse' + $index }}">
+                                <div class="card-header history-cards" id="{{ 'heading' + $index }}">
+                                  <h5 class="mb-0">
+                                    <!-- <button class="btn btn-primary black-text">{{game.winner}}, {{ game.createdAt }}</button> -->
+                                    <p>Winner: {{game.winner}} (
+                                      <time>{{ game.createdAt | date : format : timezone }}</time>)</p>
+                                  </h5>
+                                </div>
 
-                    <div class="collapse" id="{{ 'collapse' + $index }}" data-parent="#accordion">
-                      <div class="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Name</th>
-                              <th>Score</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr ng-repeat="player in game.gamePlayers">
-                              <td>{{$index + 1}}</td>
-                              <td>{{player[0]}}</td>
-                              <td>{{player[1]}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                <div class="collapse" id="{{ 'collapse' + $index }}" data-parent="#accordion">
+                                  <div class="card-body">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Name</th>
+                                          <th>Score</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="player in game.gamePlayers">
+                                          <td>{{$index + 1}}</td>
+                                          <td>{{player[0]}}</td>
+                                          <td>{{player[1]}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="game-donations" role="tabpanel" role="tab-pane" aria-labelledby="donations-tab">
+                          <p>No donations have been made yet</p>
+                        </div>
                       </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" id="close-button" data-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="tab-pane fade" id="game-donations" role="tabpanel" role="tab-pane" aria-labelledby="donations-tab">
-              <p>No donations have been made yet</p>
-            </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn" id="close-button" data-dismiss="modal">Close</button>
-      </div>
-  </div>
-  </div>
-  </div>
-
             </li>
+            <div class="btn-group">
+              <span class="badge badge-pill" style="background: #F98D3F; margin-bottom: 30px" ng-show="notificationsLength">{{notificationsLength}}</span>
+              <li class="nav-item" style="margin-top: 4px; margin-right: 2px;">
+                <button class="badge badge-pill dropdown-toggle" data-toggle="dropdown" id="dropdownMenuLink" style="background: #F98D3F">
+                  <i class="fa fa-bullhorn fa-2x" aria-hidden="true" ng-click="readGameInviteNotification()"></i>
+                </button>
+                <div class="dropdown">
+                  <ul class="dropdown-menu" ng-show="notificationsLength" aria-labelledby="dropdownMenuLink" style="width: 350px; margin-top: 10px">
+                    <li class="dropdown-item" ng-repeat="notification in notifications">
+                      <a class="dropdown-item" ng-href="{{notification.url}}">{{notification.message}}</a>
+                      <a class="dropdown-divider"></a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </div>
             <li class="nav-item">
-              <a role="button" class="btn history-button nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" data-toggle="modal" data-target="#exampleModal" ng-click="getGameLeaderboard(); getGameLog();">
-              Game History
+              <a role="button" class="btn history-button nav-link waves-effect waves-light z-depth-3 ml-1 text-center white-text" data-toggle="modal"
+                data-target="#exampleModal" ng-click="getGameLeaderboard(); getGameLog();">
+                Game History
               </a>
             </li>
             <li class="nav-item">
@@ -145,8 +171,8 @@
 
                   <!-- Button trigger modal -->
                   <div>
-                    <button ng-show="hideChatButton" style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn" data-toggle="modal"
-                      data-target="#chatModal" ng-click="resetChatLength()">
+                    <button ng-show="hideChatButton" style="margin-top: 360px; background: #256188; border-radius: 40px" type="button" class="btn"
+                      data-toggle="modal" data-target="#chatModal" ng-click="resetChatLength()">
                       <i class="fa fa-comments fa-4x white-text"></i>
                       <span class="badge badge-pill" style="background: #F98D3F;" ng-show="newChatLength">{{newChatLength}}</span>
                     </button>
@@ -190,31 +216,31 @@
                                 id="inlineFormInputMD" />
                               <!-- Material auto-sizing form -->
                               <!-- <form style="margin-top: -12PX;margin-bottom: -10px;"> -->
-                                <!-- Grid row -->
-                                <!-- <div class="form-row align-items-center" style="margin-left: 10px;"> -->
-                                  <!-- Grid column -->
-                                  <!-- <div class="col-auto"> -->
-                                    <!-- Material input -->
-                                    <!-- <div class="md-form">
+                              <!-- Grid row -->
+                              <!-- <div class="form-row align-items-center" style="margin-left: 10px;"> -->
+                              <!-- Grid column -->
+                              <!-- <div class="col-auto"> -->
+                              <!-- Material input -->
+                              <!-- <div class="md-form">
                                       <input type="text" style="width: 200px;" class="form-control mb-2" id="inlineFormInputMD" autocomplete="off" placeholder="Type a message" ng-model="chatMessage">
                                       <label class="sr-only" for="inlineFormInputMD">Name</label>
                                     </div>
                                   </div> -->
-                                  <!-- Grid column -->
+                              <!-- Grid column -->
 
-                                  <!-- Grid column -->
+                              <!-- Grid column -->
 
-                                  <!-- Grid column -->
+                              <!-- Grid column -->
 
-                                  <!-- Grid column -->
-                                  <!-- <div class="col-auto">
+                              <!-- Grid column -->
+                              <!-- <div class="col-auto">
                                     <button type="submit" style="background: #256188" class="btn btn-sm mb-0" ng-click="addChat(chatMessage)">
                                       <i class="fa fa-paper-plane"></i>
                                     </button>
                                   </div> -->
-                                  <!-- Grid column -->
-                                <!-- </div> -->
-                                <!-- Grid row -->
+                              <!-- Grid column -->
+                              <!-- </div> -->
+                              <!-- Grid row -->
                               <!-- </form> -->
                               <!-- Material auto-sizing form -->
                             </div>

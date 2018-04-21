@@ -43,8 +43,8 @@ angular
         or 16 seconds to judge others answers (if you are the card czar).`,
         playerBox: 'All the players participating in this game would be shown here.',
         questionBox: 'After the game has started, the question would be displayed in this box.',
-        answerBox: 'After the game has started, the answers choosen by ' +
-        'you(if you are not the card czar) and others would be shown here.'
+        answerBox: 'After the game has started, the answers chosen by ' +
+        'you (if you are not the card czar) and others would be shown here.'
       };
       $scope.gameLog = [];
       $scope.gameLeaderboard = [];
@@ -409,8 +409,11 @@ angular
         };
         $http({
           method: 'POST',
-          url: '/api/user/invite/:user',
-          data: userDetails
+          url: '/api/users/invite',
+          data: userDetails,
+          headers: {
+            'x-access-token': $window.localStorage.getItem('token')
+          }
         });
         // Close invitation modal and show mail sent information
         $scope.showSending = true;
@@ -437,6 +440,38 @@ angular
       $scope.input = '';
       $scope.updateEmailEntry = (user) => {
         $scope.input = user.email;
+      };
+
+      $scope.notifications = [];
+      $scope.notificationsLength = 0;
+      $scope.getGameInviteNotification = () => {
+        const config = {
+          headers: {
+            'x-access-token': $window.localStorage.getItem('token')
+          },
+        };
+        $http.get('/api/users/notifications', config)
+          .then((res) => {
+            $scope.notifications = res.data.notifications;
+            $scope.notificationsLength = $scope.notifications.length;
+          })
+          .catch(err => err);
+      };
+      if ($window.localStorage.getItem('token')) {
+        $scope.getGameInviteNotification();
+      }
+
+      $scope.readGameInviteNotification = () => {
+        const config = {
+          headers: {
+            'x-access-token': $window.localStorage.getItem('token'),
+          },
+        };
+        $http.put('/api/users/notifications', {}, config)
+          .then(() => {
+            $scope.notificationsLength = 0;
+          })
+          .catch(err => err);
       };
     }
   ]);
