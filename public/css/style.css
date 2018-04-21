@@ -341,3 +341,16 @@ align-items: flex-end;
   margin-right: 0.6px;
   text-transform: capitalize;
 }
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.dropdown-menu li, .dropdown-menu li a {
+  white-space: normal;
+  float: left;
+  width: 100%;
+  height: auto;
+  word-wrap: break-word;
+}

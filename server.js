@@ -12,6 +12,7 @@ import auth from './config/middlewares/authorization';
 import './app/models/user';
 import './app/models/question';
 import './app/models/answer';
+import './app/models/notification';
 import passportConfig from './config/passport';
 import expressSettings from './config/express';
 import routes from './config/routes';
