@@ -86,8 +86,8 @@ const sendInviteMail = (email, req, res) => {
       to: recieverEmail, // receiver
       subject: 'CFH Game Invite', // Subject line
       text: `Hi there, 
-      A friend has requested that you join a game of 
-      Cards For Humanity. To do so, please click on the link below
+      A friend has requested that you join a game of \
+      Cards For Humanity. To do so, please click on the link below\
       or if that does not work, copy and paste it in your browser.
        ${req.body.urlLink}
        
