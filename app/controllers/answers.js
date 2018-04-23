@@ -60,7 +60,13 @@ exports.all = (req, res) => {
  * @returns {function} - callback function
  */
 exports.allAnswersForGame = (cb, regionId) => {
-  Answer.find({ official: true, regionId }).select('-_id').exec((err, answers) => {
+  let query = {};
+  if (regionId === '3' || !regionId) {
+    query = { official: true };
+  } else {
+    query = { regionId, official: true }
+  }
+  Answer.find(query).select('-_id').exec((err, answers) => {
     if (err) {
       throw (err);
     } else {
