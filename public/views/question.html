@@ -29,7 +29,7 @@
           </div>
 
           <div class="btn btn-primary btn-sm ml-2 z-depth-3" style="border-radius:20px; margin-top: 7px; float: right; background-color: #256188 !important"
-          id='invite-friends' class="btn btn-md" ng-click="getUsers()">Invite Friends</div>
+          id='invite-friends' class="btn btn-md" ng-click="getUsers()" ng-show="showInviteModal">Invite Friends</div>
 
           <!-- czar selets card -->
           <div id="start-game-container" style="padding: 20px;" ng-show="isCzar() && game.state === 'czar should pick a card'">
@@ -229,7 +229,7 @@
                       <div class="md-form mb-4">
                           <i style="color: #256188 !important;" class="fa fa-search prefix"></i>
                           <input type="text" ng-keyup="searchUsers(searchTerm)" ng-model="searchTerm" id="materialFormEmailModalEx1" name="email" class="form-control form-control-sm" ng-model="input"
-                          required placeholder="Search for user:" autocomplete="off">            
+                          required placeholder="Search for user:" autocomplete="off">
                               <!-- <label for="inputIconEx1">E-mail address</label> -->
                       </div>
                 </div>

@@ -51,6 +51,7 @@ angular
       $scope.historyClass = '';
       $scope.leaderboardClass = 'active';
       $scope.donationsClass = '';
+      $scope.showInviteModal = false;
 
       $scope.pickCard = (card) => {
         if (!$scope.hasPickedCards) {
@@ -387,6 +388,14 @@ angular
       const triggerInviteModal = () => {
         $('#inviteFriends').modal({ show: true, });
       };
+
+      $scope.$watch('game.state', () => {
+        if ((game.state === 'awaiting players')) {
+          $scope.showInviteModal = true;
+        } else if (game.state !== 'awaiting players') {
+          $scope.showInviteModal = false;
+        }
+      });
 
       $scope.getUsers = () => {
         $http({
