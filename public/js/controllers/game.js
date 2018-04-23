@@ -37,6 +37,8 @@ angular
           height: '170px'
         });
 
+      $scope.loggedIn = !!$window.localStorage.getItem('token');
+
       $scope.gameTour = {
         startButton: 'Click this button to start the game.',
         timerBox: `This is the timer. You have 21 seconds to choose an answer
