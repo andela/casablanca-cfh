@@ -291,17 +291,19 @@
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
-          <div class="modal-body">
-            <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1">
-              <option value="">Select a region</option>
-              <option selected value="1">Africa</option>
-              <option value="2">America</option>
-              <!-- <option>Eurasia</option> -->
-            </select>
-          </div>
-          <div class="modal-footer">
-              <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-click="playGame()">Play Game</button>
-          </div>
+          <form name="normalGame">
+            <div class="modal-body">
+              <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1" required>
+                <option value="">Select a region</option>
+                <option selected value="2">Africa</option>
+                <option value="1">America</option>
+                <option value="3">All Regions</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-disabled="normalGame.$invalid" ng-click="playGame()">Play Game</button>
+            </div>
+          </form>
       </div>
   </div>
 </div>
@@ -315,17 +317,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-              <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1">
-                <option value="">Select a region</option>
-                <option selected value="1">Africa</option>
-                <option value="2">Americas</option>
-                <!-- <option>Eurasia</option> -->
-              </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-click="playCustomGame()">Play Game</button>
-            </div>
+            <form name="customGame">
+              <div class="modal-body">
+                <select ng-model="gameRegion" class="form-control" id="exampleFormControlSelect1" required>
+                  <option value="">Select a region</option>
+                  <option selected value="2">Africa</option>
+                  <option value="1">Americas</option>
+                  <option value="3">All Regions</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" style="background-color: #256188 !important;" class="btn btn-primary" ng-disabled="customGame.$invalid" ng-click="playCustomGame()">Play Game</button>
+              </div>
+            </form>
         </div>
     </div>
   </div>

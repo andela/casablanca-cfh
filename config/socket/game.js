@@ -25,6 +25,7 @@ class Game {
    * Creates an instance of Game.
    * @param {object} gameID
    * @param {object} io
+   * @param {number} regionId
    * @memberof Game
    */
   constructor(gameID, io, regionId) {

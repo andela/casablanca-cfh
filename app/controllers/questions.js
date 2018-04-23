@@ -61,11 +61,20 @@ exports.all = (req, res) => {
  * @returns {object} List of Question For Game
  */
 exports.allQuestionsForGame = (cb, regionId) => {
-  Question.find({
-    regionId,
-    official: true,
-    numAnswers: { $lt: 3 }
-  }).select('-_id').exec((err, questions) => {
+  let query = {};
+  if (regionId === 3 || !regionId) {
+    query = {
+      official: true,
+      numAnswers: { $lt: 3 }
+    };
+  } else {
+    query = {
+      regionId,
+      official: true,
+      numAnswers: { $lt: 3 }
+    };
+  }
+  Question.find(query).select('-_id').exec((err, questions) => {
     if (err) {
       throw err;
     }

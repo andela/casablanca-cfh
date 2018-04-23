@@ -17,7 +17,7 @@ angular.module('mean.system')
     };
 
     $scope.playCustomGame = () => {
-      $window.location = '/play?custom';
+      $window.location = `/play?custom=true&regionId=${$scope.gameRegion}`;
     };
 
     $scope.playGame = () => {

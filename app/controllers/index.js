@@ -3,8 +3,8 @@ exports.play = (req, res) => {
   if (regionId === null || undefined) {
     regionId = 1;
   }
-  if (Object.keys(req.query)[0] === 'custom') {
-    res.redirect('/#!/app?custom');
+  if (req.query.custom === 'true') {
+    res.redirect(`/#!/app?custom&region=${regionId}`);
   } else {
     res.redirect(`/#!/app?region=${regionId}`);
   }

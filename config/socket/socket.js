@@ -73,7 +73,8 @@ module.exports = (io) => {
     }
   };
 
-  const createGameWithFriends = (player, socket) => {
+  const createGameWithFriends = (player, socket, regionId) => {
+    console.log('>>>>>>>Create Game Region', regionId)
     let isUniqueRoom = false;
     let uniqueRoom = '';
     // Generate a random 6-character game ID
@@ -82,12 +83,13 @@ module.exports = (io) => {
       for (let i = 0; i < 6; i += 1) {
         uniqueRoom += chars[Math.floor(Math.random() * chars.length)];
       }
+      // uniqueRoom += regionId;
       if (!allGames[uniqueRoom] && !(/^\d+$/).test(uniqueRoom)) {
         isUniqueRoom = true;
       }
     }
     logger.info(socket.id, 'has created unique game', uniqueRoom);
-    game = new Game(uniqueRoom, io);
+    game = new Game(uniqueRoom, io, regionId);
     allPlayers[socket.id] = true;
     game.players.push(player);
     allGames[uniqueRoom] = game;
@@ -111,7 +113,7 @@ module.exports = (io) => {
       // Also checking the number of players, so node doesn't crash when
       // no one is in this custom room.
       if (game.state === 'awaiting players' && (!game.players.length ||
-        game.players[0].socket.id !== socket.id) && game.regionId === regionId) {
+        game.players[0].socket.id !== socket.id)) {
         // Put player into the requested game
         logger.info('Allowing player to join', requestedGameId);
         allPlayers[socket.id] = true;
@@ -141,6 +143,7 @@ module.exports = (io) => {
   };
 
   const joinGame = (socket, data) => {
+    console.log('>>>>>>>>>> JOIN Game', data.regionId)
     const player = new Player(socket);
     data = data || {};
     player.userID = data.userID || 'unauthenticated';
