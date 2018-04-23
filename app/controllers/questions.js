@@ -62,7 +62,7 @@ exports.all = (req, res) => {
  */
 exports.allQuestionsForGame = (cb, regionId) => {
   let query = {};
-  if (regionId === 3 || !regionId) {
+  if (regionId === '3' || !regionId) {
     query = {
       official: true,
       numAnswers: { $lt: 3 }
